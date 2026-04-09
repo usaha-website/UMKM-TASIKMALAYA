@@ -2,15 +2,19 @@
 
 import { useEffect } from 'react';
 
+import { formatIDR } from '@/lib/currency';
 import type { Category, ProductSortOption } from '@/types/store';
 
 type CatalogFilterDrawerProps = {
   categories: Category[];
   selectedCategoryId: string;
   sortOption: ProductSortOption;
+  priceBounds: { min: number; max: number };
+  priceRange: { min: number; max: number };
   isOpen: boolean;
   onSelectCategory: (categoryId: string) => void;
   onSelectSort: (sortOption: ProductSortOption) => void;
+  onPriceRangeChange: (nextRange: { min: number; max: number }) => void;
   onClose: () => void;
 };
 
@@ -32,8 +36,8 @@ const SORT_OPTIONS: Array<{ value: ProductSortOption; label: string; description
   },
   {
     value: 'name-asc',
-    label: 'Price Range Filter',
-    description: 'Price Range Filter',
+    label: 'Dual Range Slider',
+    description: 'Dual Range Slider',
   },
 ];
 
@@ -41,9 +45,12 @@ export default function CatalogFilterDrawer({
   categories,
   selectedCategoryId,
   sortOption,
+  priceBounds,
+  priceRange,
   isOpen,
   onSelectCategory,
   onSelectSort,
+  onPriceRangeChange,
   onClose,
 }: CatalogFilterDrawerProps) {
   useEffect(() => {
@@ -133,6 +140,54 @@ export default function CatalogFilterDrawer({
                   {category.label}
                 </button>
               ))}
+            </div>
+          </section>
+
+          <section className="mt-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/80">
+              Rentang Harga
+            </p>
+            <div className="mt-4 space-y-4">
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+                <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  <span>Min</span>
+                  <span>Max</span>
+                </div>
+                <div className="mt-2 flex items-center justify-between gap-3 text-sm font-semibold text-slate-100">
+                  <span>{formatIDR(priceRange.min)}</span>
+                  <span>{formatIDR(priceRange.max)}</span>
+                </div>
+                <div className="mt-4 space-y-3">
+                  <input
+                    type="range"
+                    min={priceBounds.min}
+                    max={priceBounds.max}
+                    step={1000}
+                    value={priceRange.min}
+                    onChange={(event) => {
+                      const nextMin = Math.min(Number(event.target.value), priceRange.max);
+                      onPriceRangeChange({ min: nextMin, max: priceRange.max });
+                    }}
+                    className="w-full accent-emerald-300"
+                  />
+                  <input
+                    type="range"
+                    min={priceBounds.min}
+                    max={priceBounds.max}
+                    step={1000}
+                    value={priceRange.max}
+                    onChange={(event) => {
+                      const nextMax = Math.max(Number(event.target.value), priceRange.min);
+                      onPriceRangeChange({ min: priceRange.min, max: nextMax });
+                    }}
+                    className="w-full accent-emerald-300"
+                  />
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-300">
+                Geser rentang untuk menyesuaikan harga produk.
+              </p>
             </div>
           </section>
 

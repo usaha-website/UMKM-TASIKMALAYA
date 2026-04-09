@@ -70,10 +70,10 @@ export default function HomePage() {
 
   const totals = useMemo(() => computeCartTotals(cart), [cart]);
 
-  const filteredProducts = useMemo(() => {
+  const baseProducts = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
-    const nextProducts = PRODUCTS.filter((product) => {
+    return PRODUCTS.filter((product) => {
       const matchesCategory =
         activeCategoryId === 'all' ? true : product.categoryId === activeCategoryId;
 
@@ -90,6 +90,47 @@ export default function HomePage() {
       const searchableText = `${product.name} ${product.description} ${detailText}`.toLowerCase();
 
       return searchableText.includes(normalizedQuery);
+    });
+  }, [activeCategoryId, searchQuery]);
+
+  const priceBounds = useMemo(() => {
+    const prices = baseProducts.flatMap((product) => product.variants.map((variant) => variant.price));
+    if (prices.length === 0) {
+      return { min: 0, max: 0 };
+    }
+
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices),
+    };
+  }, [baseProducts]);
+
+  const [priceRange, setPriceRange] = useState(() => priceBounds);
+
+  useEffect(() => {
+    setPriceRange((current) => {
+      const nextMin = Math.max(priceBounds.min, Math.min(current.min, priceBounds.max));
+      const nextMax = Math.min(priceBounds.max, Math.max(current.max, priceBounds.min));
+      const normalizedMin = Math.min(nextMin, nextMax);
+      const normalizedMax = Math.max(nextMin, nextMax);
+
+      if (normalizedMin === current.min && normalizedMax === current.max) {
+        return current;
+      }
+
+      return { min: normalizedMin, max: normalizedMax };
+    });
+  }, [priceBounds.min, priceBounds.max]);
+
+  const filteredProducts = useMemo(() => {
+    const nextProducts = baseProducts.filter((product) => {
+      if (product.variants.length === 0) {
+        return false;
+      }
+
+      return product.variants.some(
+        (variant) => variant.price >= priceRange.min && variant.price <= priceRange.max,
+      );
     });
 
     if (sortOption === 'price-asc') {
@@ -109,7 +150,7 @@ export default function HomePage() {
     }
 
     return nextProducts;
-  }, [activeCategoryId, searchQuery, sortOption]);
+  }, [baseProducts, priceRange.max, priceRange.min, sortOption]);
 
   const totalPages = useMemo(() => {
     return Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE));
@@ -288,9 +329,12 @@ export default function HomePage() {
         categories={CATEGORIES}
         selectedCategoryId={activeCategoryId}
         sortOption={sortOption}
+        priceBounds={priceBounds}
+        priceRange={priceRange}
         isOpen={isFilterDrawerOpen}
         onSelectCategory={handleCategorySelect}
         onSelectSort={handleSortChange}
+        onPriceRangeChange={setPriceRange}
         onClose={() => setIsFilterDrawerOpen(false)}
       />
 
