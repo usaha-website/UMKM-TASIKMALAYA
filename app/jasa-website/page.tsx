@@ -27,24 +27,25 @@ export default function JasaWebsitePage() {
           label: 'Konsultasi Gratis',
           external: true,
         }}
-        infoTitle="Fokus layanan ini"
+        infoTitle="Solusi Website Profesional, Pilih Paket Website Usahamu"
         infoSteps={[
           {
-            title: 'Copywriting yang menjual',
+            title: 'Layanan pembuatan website personal/toko online',
             description:
-              'Kalimat dibuat untuk membantu pengunjung cepat paham dan cepat bertindak.',
+              'Bagi UMKM yang ingin memiliki identitas digital mandiri.',
           },
           {
-            title: 'Tampilan nyaman di HP',
-            description: 'Struktur halaman diutamakan untuk pembeli mobile yang dominan di UMKM.',
+            title: 'Fokus pada kemudahan pengelolaan dan kecepatan akses',
+            description:
+              'Dirancang agar operasional harian tetap ringan dan mudah diurus.',
           },
           {
-            title: 'Alur chat lebih cepat',
+            title: 'Biaya operasional transparan',
             description:
-              'CTA diarahkan agar calon pembeli langsung masuk ke percakapan yang relevan.',
+              'Tanpa biaya tersembunyi, jadi Anda bisa mengatur pengeluaran dengan tenang.',
           },
         ]}
-        infoNote="Geser paket di HP untuk melihat semua pilihan, lalu buka detail yang paling sesuai dengan kebutuhan toko Anda."
+        infoNote="Solusi ini dibuat untuk UMKM yang ingin tampil profesional tanpa beban biaya yang membingungkan."
       />
 
       <main className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 md:px-6">
@@ -120,20 +121,6 @@ export default function JasaWebsitePage() {
                           ))}
                         </ul>
                       </div>
-
-                      {item.limitations?.length ? (
-                        <div>
-                          <p className="text-sm font-semibold text-slate-50">Catatan batas paket</p>
-                          <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-300">
-                            {item.limitations.map((limitation) => (
-                              <li key={limitation} className="flex gap-3">
-                                <span className="mt-2 h-2 w-2 rounded-full bg-amber-300" />
-                                <span>{limitation}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ) : null}
 
                       <a
                         href={inquiryUrl}

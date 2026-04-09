@@ -334,7 +334,6 @@ export default function HomePage() {
         isOpen={isFilterDrawerOpen}
         onSelectCategory={handleCategorySelect}
         onSelectSort={handleSortChange}
-        onPriceRangeChange={setPriceRange}
         onClose={() => setIsFilterDrawerOpen(false)}
       />
 

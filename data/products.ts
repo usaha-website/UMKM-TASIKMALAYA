@@ -39,6 +39,20 @@ export const PRODUCTS: Product[] = [
     variants: createSizeVariants('celana-dalam-classic', 19000),
   },
   {
+    id: 'celana-dalam-daily',
+    name: 'Celana Dalam Daily',
+    description: 'Celana dalam harian yang adem, ringan, dan nyaman dipakai seharian.',
+    details: [
+      { label: 'Bahan', value: 'Cotton combed (adem & lembut)' },
+      { label: 'Pinggang', value: 'Elastis, tidak mudah melar' },
+      { label: 'Jahitan', value: 'Rapi, nyaman di kulit' },
+      { label: 'Perawatan', value: 'Cuci lembut, jemur teduh' },
+    ],
+    image: '/celanaDalam.webp',
+    categoryId: 'celana-dalam',
+    variants: createSizeVariants('celana-dalam-daily', 20000),
+  },
+  {
     id: 'celana-dalam-premium',
     name: 'Celana Dalam Premium',
     description:

@@ -12,10 +12,6 @@ export const WEBSITE_SERVICE_PACKAGES: ServicePackage[] = [
       'Ikon link sosial media: Instagram, TikTok, dan Facebook',
       'Tombol WhatsApp melayang agar pembeli mudah menghubungi Anda',
     ],
-    limitations: [
-      'Pembeli belum bisa pilih banyak barang sekaligus',
-      'Data produk masih statis dan belum bisa diubah sendiri oleh klien',
-    ],
     ctaLabel: 'Daftar Paket Hemat',
   },
   {
@@ -43,10 +39,8 @@ export const WEBSITE_SERVICE_PACKAGES: ServicePackage[] = [
       'Untuk bisnis yang ingin alur pemesanan, promosi, dan pelacakan berjalan lebih otomatis.',
     features: [
       'Semua fitur Paket Populer',
-      'Hitung ongkir otomatis dengan integrasi kurir saat checkout',
       'Pemasangan TikTok Pixel dan Meta Pixel untuk kebutuhan iklan',
       'Variasi produk seperti ukuran atau warna dengan harga berbeda',
-      'Integrasi feed sosial media agar postingan terbaru tampil di website',
     ],
     ctaLabel: 'Daftar Paket Pro',
   },
@@ -59,8 +53,8 @@ export const WEBSITE_SERVICE_ADDONS: ServiceAddon[] = [
     description: 'Daftar titik lokasi usaha dan jam buka agar bisnis Anda lebih mudah ditemukan.',
   },
   {
-    name: 'Poles Foto Produk (AI Editing)',
-    price: 'Rp10.000 - Rp15.000 / foto',
+    name: 'Poles Foto Produk',
+    price: 'Rp5.000 - Rp10.000 / foto',
     description: 'Hapus background dan pertajam foto supaya katalog terlihat lebih meyakinkan.',
   },
   {
