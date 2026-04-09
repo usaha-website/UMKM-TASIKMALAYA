@@ -22,7 +22,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/celana.webp',
     categoryId: 'celana',
-    variants: createSizeVariants('celana-training', 79000),
+    variants: createSizeVariants('celana-training', 49000),
   },
   {
     id: 'celana-dalam-classic',
@@ -36,7 +36,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/CelanaDalam1.webp',
     categoryId: 'celana-dalam',
-    variants: createSizeVariants('celana-dalam-classic', 39000),
+    variants: createSizeVariants('celana-dalam-classic', 19000),
   },
   {
     id: 'celana-dalam-premium',
@@ -51,7 +51,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/CelanaDalam2.webp',
     categoryId: 'celana-dalam',
-    variants: createSizeVariants('celana-dalam-premium', 45000),
+    variants: createSizeVariants('celana-dalam-premium', 24000),
   },
   {
     id: 'singlet-cotton',
@@ -65,6 +65,6 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/Singlet.webp',
     categoryId: 'singlet',
-    variants: createSizeVariants('singlet-cotton', 35000),
+    variants: createSizeVariants('singlet-cotton', 18000),
   },
 ];

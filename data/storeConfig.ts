@@ -7,5 +7,5 @@ export const storeConfig: StoreConfig = {
   waNumber: '082338792512',
   storeMapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(STORE_ADDRESS)}`,
   storeMapEmbedUrl: `https://www.google.com/maps?output=embed&q=${encodeURIComponent(STORE_ADDRESS)}`,
-  shippingNote: 'Ongkir disesuaikan dengan aplikasi Gojek.',
+  shippingNote: 'Ongkir disesuaikan sebelum pembayaran saat pemesanan via WhatsApp.',
 };

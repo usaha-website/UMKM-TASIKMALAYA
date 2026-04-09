@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import CartDrawer from '@/components/CartDrawer';
-import CategoryList from '@/components/CategoryList';
+import CatalogFilterDrawer from '@/components/CatalogFilterDrawer';
 import CheckoutPanel from '@/components/CheckoutPanel';
 import ProductGrid from '@/components/ProductGrid';
 import StoreHeader from '@/components/StoreHeader';
@@ -15,13 +15,36 @@ import { storeConfig } from '@/data/storeConfig';
 import { addItem, clearCart, computeCartTotals, removeItem, updateQty } from '@/lib/cart';
 import { requestBuyerLocation } from '@/lib/geo';
 import { buildOrderMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
-import type { BuyerLocation, CartItem, CustomerInfo, Product, ProductVariant } from '@/types/store';
+import type {
+  BuyerLocation,
+  CartItem,
+  CustomerInfo,
+  Product,
+  ProductSortOption,
+  ProductVariant,
+} from '@/types/store';
 
 const PHONE_ALLOWED = /^[0-9+\-()\s]+$/;
+const PRODUCTS_PER_PAGE = 6;
+
+function getProductBasePrice(product: Product) {
+  if (product.variants.length === 0) {
+    return 0;
+  }
+
+  return product.variants.reduce(
+    (min, variant) => Math.min(min, variant.price),
+    product.variants[0].price,
+  );
+}
 
 export default function HomePage() {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [activeCategoryId, setActiveCategoryId] = useState<string>('all');
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('singlet');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortOption, setSortOption] = useState<ProductSortOption>('featured');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [customer, setCustomer] = useState<CustomerInfo>({
     name: '',
     phone: '',
@@ -48,11 +71,66 @@ export default function HomePage() {
   const totals = useMemo(() => computeCartTotals(cart), [cart]);
 
   const filteredProducts = useMemo(() => {
-    if (activeCategoryId === 'all') {
-      return PRODUCTS;
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+
+    const nextProducts = PRODUCTS.filter((product) => {
+      const matchesCategory =
+        activeCategoryId === 'all' ? true : product.categoryId === activeCategoryId;
+
+      if (!matchesCategory) {
+        return false;
+      }
+
+      if (!normalizedQuery) {
+        return true;
+      }
+
+      const detailText =
+        product.details?.map((detail) => `${detail.label} ${detail.value}`).join(' ') ?? '';
+      const searchableText = `${product.name} ${product.description} ${detailText}`.toLowerCase();
+
+      return searchableText.includes(normalizedQuery);
+    });
+
+    if (sortOption === 'price-asc') {
+      return [...nextProducts].sort(
+        (left, right) => getProductBasePrice(left) - getProductBasePrice(right),
+      );
     }
 
-    return PRODUCTS.filter((product) => product.categoryId === activeCategoryId);
+    if (sortOption === 'price-desc') {
+      return [...nextProducts].sort(
+        (left, right) => getProductBasePrice(right) - getProductBasePrice(left),
+      );
+    }
+
+    if (sortOption === 'name-asc') {
+      return [...nextProducts].sort((left, right) => left.name.localeCompare(right.name, 'id'));
+    }
+
+    return nextProducts;
+  }, [activeCategoryId, searchQuery, sortOption]);
+
+  const totalPages = useMemo(() => {
+    return Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE));
+  }, [filteredProducts.length]);
+
+  const resolvedCurrentPage = Math.min(currentPage, totalPages);
+
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (resolvedCurrentPage - 1) * PRODUCTS_PER_PAGE;
+    return filteredProducts.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+  }, [filteredProducts, resolvedCurrentPage]);
+
+
+  const activeCategoryLabel = useMemo(() => {
+    if (activeCategoryId === 'all') {
+      return 'Semua';
+    }
+
+    return (
+      CATEGORIES.find((category) => category.id === activeCategoryId)?.label ?? 'Singlet'
+    );
   }, [activeCategoryId]);
 
   const cleanPhoneDigits = customer.phone.replace(/\D/g, '');
@@ -171,10 +249,29 @@ export default function HomePage() {
     checkoutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  function handleCategorySelect(nextCategoryId: string) {
+    setActiveCategoryId(nextCategoryId);
+    setCurrentPage(1);
+  }
+
+  function handleSearchChange(nextQuery: string) {
+    setSearchQuery(nextQuery);
+    setCurrentPage(1);
+  }
+
+  function handleSortChange(nextSortOption: ProductSortOption) {
+    setSortOption(nextSortOption);
+    setCurrentPage(1);
+  }
+
+  function handlePageChange(nextPage: number) {
+    setCurrentPage(Math.max(1, Math.min(totalPages, nextPage)));
+  }
+
   const headerChatUrl = useMemo(() => {
     return buildWhatsAppUrl(
       storeConfig.waNumber,
-      `Halo admin ${storeConfig.storeName}, saya mau tanya produk.`,
+      `Halo admin ${storeConfig.storeName}, saya mau tanya produk lokal yang tersedia.`,
     );
   }, []);
 
@@ -184,24 +281,40 @@ export default function HomePage() {
         storeName={storeConfig.storeName}
         chatUrl={headerChatUrl}
         mapUrl={storeConfig.storeMapUrl}
+        description="Belanja produk lokal jadi lebih gampang: pilih kategori, masukkan ke keranjang, lalu kirim rekap pesanan ke WhatsApp dalam beberapa langkah yang ringkas."
+      />
+
+      <CatalogFilterDrawer
+        categories={CATEGORIES}
+        selectedCategoryId={activeCategoryId}
+        sortOption={sortOption}
+        isOpen={isFilterDrawerOpen}
+        onSelectCategory={handleCategorySelect}
+        onSelectSort={handleSortChange}
+        onClose={() => setIsFilterDrawerOpen(false)}
       />
 
       <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 md:px-6">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_350px]">
           <div className="space-y-6">
-            <CategoryList
-              categories={CATEGORIES}
-              selectedId={activeCategoryId}
-              onSelect={setActiveCategoryId}
-            />
+            <section id="produk" className="scroll-mt-24">
+              <ProductGrid
+                products={paginatedProducts}
+                totalProducts={filteredProducts.length}
+                searchQuery={searchQuery}
+                activeCategoryLabel={activeCategoryLabel}
+                sortOption={sortOption}
+                currentPage={resolvedCurrentPage}
+                totalPages={totalPages}
+                onAddToCart={handleAddToCart}
+                onCheckoutFocus={handleCheckoutFocus}
+                onSearchChange={handleSearchChange}
+                onOpenFilters={() => setIsFilterDrawerOpen(true)}
+                onPageChange={handlePageChange}
+              />
+            </section>
 
-            <ProductGrid
-              products={filteredProducts}
-              onAddToCart={handleAddToCart}
-              onCheckoutFocus={handleCheckoutFocus}
-            />
-
-            <div ref={checkoutRef}>
+            <div id="checkout" ref={checkoutRef} className="scroll-mt-24">
               <CheckoutPanel
                 customer={customer}
                 onCustomerChange={handleCustomerChange}

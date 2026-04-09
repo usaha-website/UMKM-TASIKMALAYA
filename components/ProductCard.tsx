@@ -63,6 +63,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
     if (product.variants.length === 0) {
       return 0;
     }
+
     return product.variants.reduce((min, v) => Math.min(min, v.price), product.variants[0].price);
   }, [product.variants]);
 
@@ -147,15 +148,13 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
         />
       </div>
 
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <h3 className="truncate text-base font-bold text-slate-100">{product.name}</h3>
-        </div>
-        <div className="text-right">
+      <div className="space-y-2 text-center">
+        <h3 className="text-base font-bold text-slate-100">{product.name}</h3>
+        <div className="space-y-1">
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-300">
             Mulai dari
           </p>
-          <p className="mt-1 text-lg font-bold text-emerald-200">{formatIDR(minPrice)}</p>
+          <p className="text-lg font-bold text-emerald-200">{formatIDR(minPrice)} / pcs</p>
         </div>
       </div>
 
@@ -178,15 +177,15 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
               role="dialog"
               aria-modal="true"
               aria-label={`Preview ${product.name}`}
-              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4"
+              className="fixed inset-0 z-[100] overflow-y-auto bg-black/70 p-4 overscroll-contain"
               onClick={(event) => {
                 if (event.target === event.currentTarget) {
                   setPreviewOpen(false);
                 }
               }}
             >
-              <div className="w-full max-w-5xl overflow-hidden rounded-[28px] border border-slate-700/80 bg-slate-950/90 shadow-2xl shadow-black/40 backdrop-blur">
-                <div className="flex items-center justify-between gap-3 border-b border-slate-700/70 px-4 py-3">
+              <div className="mx-auto my-auto flex max-h-[calc(100dvh-2rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-slate-700/80 bg-slate-950/90 shadow-2xl shadow-black/40 backdrop-blur">
+                <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-700/70 px-4 py-3">
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">
                       Detail Produk
@@ -205,13 +204,13 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                   </button>
                 </div>
 
-                <div className="grid gap-0 md:grid-cols-[1.05fr_0.95fr]">
+                <div className="grid flex-1 gap-0 overflow-y-auto overscroll-contain md:grid-cols-[1.05fr_0.95fr]">
                   <div className="border-b border-slate-700/70 bg-slate-900/30 p-5 md:border-b-0 md:border-r">
                     <div className="relative overflow-hidden rounded-3xl border border-slate-700/70 bg-slate-900/40">
                       <div
                         ref={carouselRef}
                         onScroll={handleCarouselScroll}
-                        className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
+                        className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth touch-pan-x"
                       >
                         {galleryImages.map((src, index) => (
                           <div
@@ -241,7 +240,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                         ].join(' ')}
                         aria-label="Foto sebelumnya"
                       >
-                        ‹
+                        &#8249;
                       </button>
                       <button
                         type="button"
@@ -255,7 +254,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                         ].join(' ')}
                         aria-label="Foto berikutnya"
                       >
-                        ›
+                        &#8250;
                       </button>
 
                       <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-slate-700/70 bg-slate-950/55 px-3 py-1.5 text-xs font-semibold text-slate-100 backdrop-blur">
@@ -281,12 +280,12 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                     </div>
                   </div>
 
-                  <div className="p-5">
+                  <div className="p-5 touch-pan-y">
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
-                      Harga
+                      Harga per pcs
                     </p>
                     <p className="font-display mt-2 text-3xl font-semibold text-emerald-200 md:text-4xl">
-                      {selectedVariant ? formatIDR(selectedVariant.price) : '-'}
+                      {selectedVariant ? `${formatIDR(selectedVariant.price)} / pcs` : '-'}
                     </p>
 
                     <p className="mt-4 text-sm text-slate-200/80">{product.description}</p>
@@ -337,7 +336,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                             >
                               <p className="text-sm font-bold text-slate-100">{variant.label}</p>
                               <p className="mt-0.5 text-[11px] font-semibold text-slate-300">
-                                {formatIDR(variant.price)}
+                                {formatIDR(variant.price)} / pcs
                               </p>
                             </button>
                           );
@@ -439,7 +438,8 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                     </div>
 
                     <p className="mt-4 text-xs text-slate-300">
-                      Tips: Klik “Beli Sekarang” untuk lanjut isi data dan kirim via WhatsApp.
+                      Tips: Klik &quot;Beli Sekarang&quot; untuk lanjut isi data dan kirim via
+                      WhatsApp.
                     </p>
                   </div>
                 </div>
