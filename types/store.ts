@@ -25,6 +25,8 @@ export type Product = {
   variants: ProductVariant[];
 };
 
+export type ProductSortOption = 'featured' | 'price-asc' | 'price-desc' | 'name-asc';
+
 export type CartItem = {
   productId: string;
   productName: string;

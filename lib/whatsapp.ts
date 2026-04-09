@@ -1,4 +1,5 @@
 import type { BuyerLocation, CartItem, CustomerInfo, StoreConfig } from '@/types/store';
+import type { PartnerRegistrationForm } from '@/types/partner';
 import { formatIDR } from '@/lib/currency';
 
 type BuildOrderMessageInput = {
@@ -66,4 +67,48 @@ function normalizeWhatsAppNumber(input: string): string {
 export function buildWhatsAppUrl(number: string, message: string): string {
   const normalizedNumber = normalizeWhatsAppNumber(number);
   return `https://wa.me/${normalizedNumber}?text=${encodeURIComponent(message)}`;
+}
+
+export function buildPartnerRegistrationMessage(form: PartnerRegistrationForm): string {
+  const paymentDetails =
+    form.paymentMethod === 'Transfer Bank'
+      ? [
+          `Nama Bank: ${form.bankName}`,
+          `Nomor Rekening: ${form.bankAccountNumber}`,
+          `Atas Nama: ${form.bankAccountHolder}`,
+        ]
+      : [
+          `Nama E-Wallet: ${form.ewalletName}`,
+          `Nomor HP E-Wallet: ${form.ewalletPhone}`,
+          `Atas Nama: ${form.ewalletAccountHolder}`,
+        ];
+
+  return [
+    'Halo admin UMKM-Tasikmalaya, saya ingin daftar Partner UMKM.',
+    '',
+    'Data Personal:',
+    `Nama Lengkap: ${form.fullName}`,
+    `Nama Panggilan: ${form.nickName || '-'}`,
+    `Nomor WhatsApp: ${form.whatsapp}`,
+    `Email: ${form.email}`,
+    '',
+    'Profil Usaha:',
+    `Nama Usaha/Brand: ${form.businessName}`,
+    `Bidang Usaha: ${form.businessField}`,
+    `Alamat/Lokasi Usaha: ${form.businessLocation}`,
+    `Media Sosial Usaha: ${form.socialMedia}`,
+    '',
+    'Detail Pembayaran:',
+    `Metode Pembayaran: ${form.paymentMethod}`,
+    ...paymentDetails,
+  ].join('\n');
+}
+
+export function buildWebsiteServiceInquiryMessage(packageName: string): string {
+  return [
+    'Halo admin UMKM-Tasikmalaya, saya tertarik dengan jasa pembuatan website.',
+    `Paket yang saya minati: ${packageName}`,
+    '',
+    'Saya ingin konsultasi lebih lanjut untuk kebutuhan toko saya.',
+  ].join('\n');
 }
