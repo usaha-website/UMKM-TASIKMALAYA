@@ -1,7 +1,18 @@
+import type { Metadata } from 'next';
+
 import StoreHeader from '@/components/StoreHeader';
 import { WEBSITE_SERVICE_ADDONS, WEBSITE_SERVICE_PACKAGES } from '@/data/websiteServices';
 import { storeConfig } from '@/data/storeConfig';
 import { buildWebsiteServiceInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
+
+export const metadata: Metadata = {
+  title: 'Jasa Website UMKM',
+  description:
+    'Solusi website profesional untuk UMKM. Paket landing page toko online dengan biaya transparan, cepat diakses, dan mudah dikelola.',
+  alternates: {
+    canonical: '/jasa-website',
+  },
+};
 
 export default function JasaWebsitePage() {
   const consultationUrl = buildWhatsAppUrl(

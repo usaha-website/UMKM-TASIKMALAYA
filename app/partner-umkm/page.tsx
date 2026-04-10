@@ -1,7 +1,18 @@
+import type { Metadata } from 'next';
+
 import PartnerRegistrationForm from '@/components/PartnerRegistrationForm';
 import StoreHeader from '@/components/StoreHeader';
 import { storeConfig } from '@/data/storeConfig';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
+
+export const metadata: Metadata = {
+  title: 'Partner UMKM',
+  description:
+    'Program Partner UMKM untuk pelaku usaha lokal yang ingin mendigitalisasi produk tanpa biaya awal. Fokus pada pertumbuhan dan gotong royong.',
+  alternates: {
+    canonical: '/partner-umkm',
+  },
+};
 
 export default function PartnerUmkmPage() {
   const consultationUrl = buildWhatsAppUrl(
