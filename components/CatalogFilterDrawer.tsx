@@ -14,6 +14,7 @@ type CatalogFilterDrawerProps = {
   isOpen: boolean;
   onSelectCategory: (categoryId: string) => void;
   onSelectSort: (sortOption: ProductSortOption) => void;
+  onPriceRangeChange: (nextRange: { min: number; max: number }) => void;
   onClose: () => void;
 };
 
@@ -44,6 +45,7 @@ export default function CatalogFilterDrawer({
   isOpen,
   onSelectCategory,
   onSelectSort,
+  onPriceRangeChange,
   onClose,
 }: CatalogFilterDrawerProps) {
   useEffect(() => {
@@ -105,6 +107,7 @@ export default function CatalogFilterDrawer({
                   onSelectCategory('all');
                   onClose();
                 }}
+                aria-pressed={selectedCategoryId === 'all'}
                 className={[
                   'rounded-2xl border px-4 py-3 text-left transition',
                   selectedCategoryId === 'all'
@@ -112,7 +115,14 @@ export default function CatalogFilterDrawer({
                     : 'border-slate-800 bg-slate-900/70 text-slate-200 hover:border-slate-600 hover:bg-slate-900',
                 ].join(' ')}
               >
-                Semua Kategori
+                <div className="flex items-center justify-between gap-3">
+                  <span>Semua Kategori</span>
+                  {selectedCategoryId === 'all' ? (
+                    <span className="text-sm font-semibold text-emerald-200">✓</span>
+                  ) : (
+                    <span className="text-sm text-slate-600">•</span>
+                  )}
+                </div>
               </button>
 
               {categories.map((category) => (
@@ -123,6 +133,7 @@ export default function CatalogFilterDrawer({
                     onSelectCategory(category.id);
                     onClose();
                   }}
+                  aria-pressed={selectedCategoryId === category.id}
                   className={[
                     'rounded-2xl border px-4 py-3 text-left transition',
                     selectedCategoryId === category.id
@@ -130,7 +141,14 @@ export default function CatalogFilterDrawer({
                       : 'border-slate-800 bg-slate-900/70 text-slate-200 hover:border-slate-600 hover:bg-slate-900',
                   ].join(' ')}
                 >
-                  {category.label}
+                  <div className="flex items-center justify-between gap-3">
+                    <span>{category.label}</span>
+                    {selectedCategoryId === category.id ? (
+                      <span className="text-sm font-semibold text-emerald-200">✓</span>
+                    ) : (
+                      <span className="text-sm text-slate-600">•</span>
+                    )}
+                  </div>
                 </button>
               ))}
             </div>
@@ -170,6 +188,38 @@ export default function CatalogFilterDrawer({
             <div className="mt-3 flex items-center justify-between text-sm font-semibold text-slate-100">
               <span>Min {formatIDR(priceBounds.min)}</span>
               <span>Max {formatIDR(priceBounds.max)}</span>
+            </div>
+            <div className="mt-4 space-y-3">
+              <input
+                type="range"
+                min={priceBounds.min}
+                max={priceBounds.max}
+                step={1000}
+                value={priceRange.min}
+                onChange={(event) => {
+                  const nextMin = Math.min(Number(event.target.value), priceRange.max);
+                  onPriceRangeChange({ min: nextMin, max: priceRange.max });
+                }}
+                className="range-slider w-full"
+                aria-label="Rentang harga minimum"
+              />
+              <input
+                type="range"
+                min={priceBounds.min}
+                max={priceBounds.max}
+                step={1000}
+                value={priceRange.max}
+                onChange={(event) => {
+                  const nextMax = Math.max(Number(event.target.value), priceRange.min);
+                  onPriceRangeChange({ min: priceRange.min, max: nextMax });
+                }}
+                className="range-slider w-full"
+                aria-label="Rentang harga maksimum"
+              />
+              <div className="flex items-center justify-between text-xs font-semibold text-slate-300">
+                <span>Min {formatIDR(priceRange.min)}</span>
+                <span>Max {formatIDR(priceRange.max)}</span>
+              </div>
             </div>
             <p className="mt-2 text-xs text-slate-300">
               Rentang awal otomatis mengikuti harga termurah dan termahal.

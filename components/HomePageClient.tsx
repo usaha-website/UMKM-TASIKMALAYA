@@ -40,7 +40,7 @@ function getProductBasePrice(product: Product) {
 
 export default function HomePageClient() {
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [activeCategoryId, setActiveCategoryId] = useState<string>('singlet');
+  const [activeCategoryId, setActiveCategoryId] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState<ProductSortOption>('featured');
   const [currentPage, setCurrentPage] = useState(1);
@@ -105,22 +105,17 @@ export default function HomePageClient() {
     };
   }, [baseProducts]);
 
-  const [priceRange, setPriceRange] = useState(() => priceBounds);
+  const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
+    min: 0,
+    max: 0,
+  });
 
   useEffect(() => {
-    setPriceRange((current) => {
-      const nextMin = Math.max(priceBounds.min, Math.min(current.min, priceBounds.max));
-      const nextMax = Math.min(priceBounds.max, Math.max(current.max, priceBounds.min));
-      const normalizedMin = Math.min(nextMin, nextMax);
-      const normalizedMax = Math.max(nextMin, nextMax);
-
-      if (normalizedMin === current.min && normalizedMax === current.max) {
-        return current;
-      }
-
-      return { min: normalizedMin, max: normalizedMax };
+    setPriceRange({
+      min: priceBounds.min,
+      max: priceBounds.max,
     });
-  }, [priceBounds.min, priceBounds.max]);
+  }, [priceBounds.max, priceBounds.min]);
 
   const filteredProducts = useMemo(() => {
     const nextProducts = baseProducts.filter((product) => {
@@ -331,6 +326,7 @@ export default function HomePageClient() {
         isOpen={isFilterDrawerOpen}
         onSelectCategory={handleCategorySelect}
         onSelectSort={handleSortChange}
+        onPriceRangeChange={setPriceRange}
         onClose={() => setIsFilterDrawerOpen(false)}
       />
 
@@ -386,6 +382,7 @@ export default function HomePageClient() {
           storeName={storeConfig.storeName}
           embedUrl={storeConfig.storeMapEmbedUrl}
           mapUrl={storeConfig.storeMapUrl}
+          socialLinks={storeConfig.socialLinks}
         />
       </main>
 

@@ -56,4 +56,9 @@ export type StoreConfig = {
   storeMapUrl: string;
   storeMapEmbedUrl: string;
   shippingNote: string;
+  socialLinks: {
+    instagram: string;
+    facebook: string;
+    tiktok: string;
+  };
 };
