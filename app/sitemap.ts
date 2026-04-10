@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const baseUrl = 'https://umkmtasikmalaya.netlify.app';
+const baseUrl = 'https://umkmtasikmalayageuwat.netlify.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

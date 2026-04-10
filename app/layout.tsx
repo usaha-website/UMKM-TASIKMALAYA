@@ -4,7 +4,7 @@ import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
 
 import './globals.css';
 
-const siteUrl = new URL('https://umkmtasikmalaya.netlify.app/');
+const siteUrl = new URL('https://umkmtasikmalayageuwat.netlify.app/');
 
 const bodyFont = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -21,16 +21,16 @@ const displayFont = Fraunces({
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   title: {
-    default: 'UMKM Tasikmalaya',
-    template: '%s | UMKM Tasikmalaya',
+    default: 'UMKM Tasikmalaya GEUWAT',
+    template: '%s | UMKM Tasikmalaya GEUWAT',
   },
   description:
-    'Belanja produk lokal UMKM Tasikmalaya dengan alur pemesanan cepat via WhatsApp. Produk harian berkualitas dari pelaku usaha lokal.',
+    'Belanja produk lokal UMKM Tasikmalaya GEUWAT dengan alur pemesanan cepat via WhatsApp. Produk harian berkualitas dari pelaku usaha lokal.',
   alternates: {
     canonical: '/',
   },
   keywords: [
-    'UMKM Tasikmalaya',
+    'UMKM Tasikmalaya GEUWAT',
     'produk lokal Tasikmalaya',
     'singlet',
     'celana dalam',
@@ -41,24 +41,24 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'id_ID',
     url: '/',
-    siteName: 'UMKM Tasikmalaya',
-    title: 'UMKM Tasikmalaya',
+    siteName: 'UMKM Tasikmalaya GEUWAT',
+    title: 'UMKM Tasikmalaya GEUWAT',
     description:
-      'Belanja produk lokal UMKM Tasikmalaya dengan alur pemesanan cepat via WhatsApp. Produk harian berkualitas dari pelaku usaha lokal.',
+      'Belanja produk lokal UMKM Tasikmalaya GEUWAT dengan alur pemesanan cepat via WhatsApp. Produk harian berkualitas dari pelaku usaha lokal.',
     images: [
       {
         url: '/og-umkm-tasikmalaya.png',
         width: 1200,
         height: 630,
-        alt: 'UMKM Tasikmalaya',
+        alt: 'UMKM Tasikmalaya GEUWAT',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UMKM Tasikmalaya',
+    title: 'UMKM Tasikmalaya GEUWAT',
     description:
-      'Belanja produk lokal UMKM Tasikmalaya dengan alur pemesanan cepat via WhatsApp. Produk harian berkualitas dari pelaku usaha lokal.',
+      'Belanja produk lokal UMKM Tasikmalaya GEUWAT dengan alur pemesanan cepat via WhatsApp. Produk harian berkualitas dari pelaku usaha lokal.',
     images: ['/og-umkm-tasikmalaya.png'],
   },
   robots: {
@@ -77,7 +77,7 @@ export default function RootLayout({
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
       '@id': `${siteUrl}#localbusiness`,
-      name: 'UMKM Tasikmalaya',
+      name: 'UMKM Tasikmalaya GEUWAT',
       url: siteUrl.toString(),
       image: `${siteUrl}LogoUMKM%20Tasikmalaya-Photoroom.png`,
       telephone: '+6282338792512',
@@ -99,7 +99,7 @@ export default function RootLayout({
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       '@id': `${siteUrl}#website`,
-      name: 'UMKM Tasikmalaya',
+      name: 'UMKM Tasikmalaya GEUWAT',
       url: siteUrl.toString(),
     },
   ];

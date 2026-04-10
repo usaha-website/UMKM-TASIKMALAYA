@@ -5,7 +5,7 @@ import HomePageClient from '@/components/HomePageClient';
 export const metadata: Metadata = {
   title: 'Produk Lokal Tasikmalaya',
   description:
-    'Belanja produk lokal UMKM Tasikmalaya dengan checkout via WhatsApp. Pilih singlet, celana, dan celana dalam berkualitas untuk kebutuhan harian.',
+    'Belanja produk lokal UMKM Tasikmalaya GEUWAT dengan checkout via WhatsApp. Pilih singlet, celana, dan celana dalam berkualitas untuk kebutuhan harian.',
   alternates: {
     canonical: '/',
   },

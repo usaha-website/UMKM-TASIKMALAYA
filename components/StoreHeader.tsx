@@ -72,7 +72,7 @@ export default function StoreHeader({
   mapUrl,
   eyebrow = 'Produk Lokal Tasikmalaya',
   title = 'Bangga Produk Sendiri. Nyaman Dipakai, Buatan Tasikmalaya.',
-  description = 'Setiap pembelian produk lokal berarti kamu ikut menghidupkan UMKM Tasikmalaya. Kualitas kami jaga, harga tetap masuk akal, dan uangnya berputar kembali untuk warga sendiri.',
+  description = 'Setiap pembelian produk lokal berarti kamu ikut menghidupkan UMKM Tasikmalaya GEUWAT. Kualitas kami jaga, harga tetap masuk akal, dan uangnya berputar kembali untuk warga sendiri.',
   primaryAction = {
     href: '#produk',
     label: 'Mulai Belanja',
@@ -188,7 +188,7 @@ export default function StoreHeader({
             <div className="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-3xl border border-slate-700/70 bg-slate-900/50 p-2 shadow-lg shadow-black/20 md:h-[72px] md:w-[72px]">
               <Image
                 src="/LogoUMKM%20Tasikmalaya-Photoroom.png"
-                alt="Logo UMKM Tasikmalaya"
+                alt="Logo UMKM Tasikmalaya GEUWAT"
                 width={80}
                 height={80}
                 priority

@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://umkmtasikmalaya.netlify.app/sitemap.xml',
+    sitemap: 'https://umkmtasikmalayageuwat.netlify.app/sitemap.xml',
   };
 }

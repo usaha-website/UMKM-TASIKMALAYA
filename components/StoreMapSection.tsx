@@ -51,7 +51,7 @@ export default function StoreMapSection({
             target="_blank"
             rel="noreferrer"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900/60 text-slate-100 transition hover:border-emerald-300/50 hover:text-emerald-200"
-            aria-label="Instagram UMKM Tasikmalaya"
+            aria-label="Instagram UMKM Tasikmalaya GEUWAT"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.6" />
@@ -64,7 +64,7 @@ export default function StoreMapSection({
             target="_blank"
             rel="noreferrer"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900/60 text-slate-100 transition hover:border-emerald-300/50 hover:text-emerald-200"
-            aria-label="Facebook UMKM Tasikmalaya"
+            aria-label="Facebook UMKM Tasikmalaya GEUWAT"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
               <path d="M14 8h3V5h-3c-2.2 0-4 1.8-4 4v2H7v3h3v5h3v-5h3l1-3h-4V9c0-.6.4-1 1-1z" />
@@ -75,7 +75,7 @@ export default function StoreMapSection({
             target="_blank"
             rel="noreferrer"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700 bg-slate-900/60 text-slate-100 transition hover:border-emerald-300/50 hover:text-emerald-200"
-            aria-label="TikTok UMKM Tasikmalaya"
+            aria-label="TikTok UMKM Tasikmalaya GEUWAT"
           >
             <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
               <path d="M15 3c.5 2.2 2.3 3.9 4.5 4.3V10c-1.7 0-3.3-.5-4.5-1.5V15a5 5 0 1 1-5-5c.3 0 .7 0 1 .1v2.7c-.3-.1-.7-.2-1-.2a2.2 2.2 0 1 0 2.2 2.2V3h2.8z" />
