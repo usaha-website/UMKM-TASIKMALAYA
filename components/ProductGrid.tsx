@@ -81,20 +81,25 @@ export default function ProductGrid({
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <label className="block sm:min-w-[320px]">
-              <span className="sr-only">Cari produk</span>
-              <input
-                value={draftQuery}
-                onChange={(event) => setDraftQuery(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    onSearchChange(draftQuery);
-                  }
-                }}
-                placeholder="Cari nama produk atau deskripsi..."
-                className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-amber-300/70 batik-outline"
-              />
-            </label>
+            <form
+              className="block sm:min-w-[320px]"
+              onSubmit={(event) => {
+                event.preventDefault();
+                onSearchChange(draftQuery);
+              }}
+            >
+              <label className="block">
+                <span className="sr-only">Cari produk</span>
+                <input
+                  type="search"
+                  enterKeyHint="search"
+                  value={draftQuery}
+                  onChange={(event) => setDraftQuery(event.target.value)}
+                  placeholder="Cari nama produk atau deskripsi..."
+                  className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-amber-300/70 batik-outline"
+                />
+              </label>
+            </form>
 
             <button
               type="button"

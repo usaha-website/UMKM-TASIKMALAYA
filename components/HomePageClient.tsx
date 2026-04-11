@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import CartDrawer from '@/components/CartDrawer';
 import CatalogFilterDrawer from '@/components/CatalogFilterDrawer';
 import CheckoutPanel from '@/components/CheckoutPanel';
+import CookieConsent from '@/components/CookieConsent';
 import ProductGrid from '@/components/ProductGrid';
 import StoreHeader from '@/components/StoreHeader';
 import StoreMapSection from '@/components/StoreMapSection';
@@ -398,6 +399,7 @@ export default function HomePageClient() {
       </main>
 
       {toast ? <ToastNotice message={toast} /> : null}
+      <CookieConsent />
 
       {isCartOpen ? (
         <div

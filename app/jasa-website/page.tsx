@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 
 import StoreHeader from '@/components/StoreHeader';
+import WebsitePackageCarousel from '@/components/WebsitePackageCarousel';
 import { WEBSITE_SERVICE_ADDONS, WEBSITE_SERVICE_PACKAGES } from '@/data/websiteServices';
 import { storeConfig } from '@/data/storeConfig';
-import { buildWebsiteServiceInquiryMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
+import { buildWhatsAppUrl } from '@/lib/whatsapp';
 
 export const metadata: Metadata = {
   title: 'Jasa Website UMKM',
@@ -86,66 +87,11 @@ export default function JasaWebsitePage() {
             </a>
           </div>
 
-          <div className="mt-6 -mx-5 overflow-x-auto px-5 pb-2 md:mx-0 md:overflow-visible md:px-0 md:pb-0">
-            <div className="flex gap-4 snap-x snap-mandatory md:grid md:grid-cols-2 xl:grid-cols-3">
-              {WEBSITE_SERVICE_PACKAGES.map((item) => {
-                const inquiryUrl = buildWhatsAppUrl(
-                  storeConfig.waNumber,
-                  buildWebsiteServiceInquiryMessage(item.name),
-                );
-
-                return (
-                  <details
-                    key={item.id}
-                    className="group min-w-[85vw] snap-start rounded-[1.75rem] border border-slate-700/70 bg-slate-950/50 p-5 open:border-emerald-300/35 open:bg-slate-950/75 sm:min-w-[24rem] md:min-w-0"
-                  >
-                    <summary className="cursor-pointer list-none">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="text-xl font-semibold text-slate-50">{item.name}</h3>
-                            {item.badge ? (
-                              <span className="rounded-full border border-amber-300/35 bg-amber-300/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-200">
-                                {item.badge}
-                              </span>
-                            ) : null}
-                          </div>
-                          <p className="mt-3 text-3xl font-bold text-emerald-300">{item.price}</p>
-                          <p className="mt-3 text-sm leading-6 text-slate-300">{item.summary}</p>
-                        </div>
-
-                        <span className="rounded-full border border-slate-700/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-300 transition group-open:border-emerald-300/50 group-open:text-emerald-200">
-                          Lihat Detail
-                        </span>
-                      </div>
-                    </summary>
-
-                    <div className="mt-5 space-y-5 border-t border-slate-800 pt-5">
-                      <div>
-                        <p className="text-sm font-semibold text-slate-50">Fitur utama</p>
-                        <ul className="mt-3 space-y-3 text-sm leading-6 text-slate-200/90">
-                          {item.features.map((feature) => (
-                            <li key={feature} className="flex gap-3">
-                              <span className="mt-2 h-2 w-2 rounded-full bg-emerald-300" />
-                              <span>{feature}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <a
-                        href={inquiryUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
-                      >
-                        {item.ctaLabel}
-                      </a>
-                    </div>
-                  </details>
-                );
-              })}
-            </div>
+          <div className="mt-6">
+            <WebsitePackageCarousel
+              packages={WEBSITE_SERVICE_PACKAGES}
+              waNumber={storeConfig.waNumber}
+            />
           </div>
         </section>
 
