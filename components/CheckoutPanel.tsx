@@ -143,7 +143,7 @@ export default function CheckoutPanel({
         type="button"
         onClick={onCheckoutWhatsApp}
         disabled={!canCheckout}
-        className="mt-4 w-full rounded-lg bg-emerald-500 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400 batik-accent"
+        className="mt-4 w-full rounded-lg bg-amber-300 px-4 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-black/25 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400 batik-accent"
       >
         Pesan via WhatsApp
       </button>
