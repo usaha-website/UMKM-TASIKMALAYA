@@ -27,7 +27,7 @@ export default function JasaWebsitePage() {
         chatUrl={consultationUrl}
         mapUrl={storeConfig.storeMapUrl}
         eyebrow="Jasa Website"
-        title="Landing page toko yang tidak cuma bagus, tapi benar-benar bantu closing."
+        title="Landing page toko yang tidak cuma bagus tapi benar benar bantu closing"
         description="Kami rancang halaman jualan yang ringan, jelas, dan diarahkan untuk mendorong klik WhatsApp. Cocok untuk UMKM yang ingin tampil profesional tanpa bikin calon pembeli bingung."
         primaryAction={{
           href: '#paket-jasa',

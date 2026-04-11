@@ -71,7 +71,7 @@ export default function StoreHeader({
   chatUrl,
   mapUrl,
   eyebrow = 'Produk Lokal Tasikmalaya',
-  title = 'Bangga Produk Sendiri. Nyaman Dipakai, Buatan Tasikmalaya.',
+  title = 'Bangga Produk Sendiri Nyaman Dipakai Buatan Tasikmalaya',
   description = 'Setiap pembelian produk lokal berarti kamu ikut menghidupkan UMKM Tasikmalaya GEUWAT. Kualitas kami jaga, harga tetap masuk akal, dan uangnya berputar kembali untuk warga sendiri.',
   primaryAction = {
     href: '#produk',

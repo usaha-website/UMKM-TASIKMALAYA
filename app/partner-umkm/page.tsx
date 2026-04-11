@@ -27,7 +27,7 @@ export default function PartnerUmkmPage() {
         chatUrl={consultationUrl}
         mapUrl={storeConfig.storeMapUrl}
         eyebrow="Partner UMKM"
-        title="Gabung sebagai partner UMKM dan buat usaha Anda lebih siap naik kelas."
+        title="Gabung sebagai partner UMKM dan buat usaha Anda lebih siap naik kelas"
         description="Kami bantu rapikan data usaha, komunikasi awal, dan pilihan pembayaran supaya proses gabung terasa jelas, cepat, dan profesional sejak kontak pertama."
         primaryAction={{
           href: '#form-partner',
