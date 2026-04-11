@@ -3,6 +3,8 @@ import type { BuyerLocation, CustomerInfo } from '@/types/store';
 type CheckoutPanelProps = {
   customer: CustomerInfo;
   onCustomerChange: (field: keyof CustomerInfo, value: string) => void;
+  rememberData: boolean;
+  onRememberDataChange: (value: boolean) => void;
   buyerLocation: BuyerLocation;
   manualLocationInput: string;
   onManualLocationChange: (value: string) => void;
@@ -20,12 +22,21 @@ function getLocationStatusText(location: BuyerLocation): string {
     case 'loading':
       return 'Mengambil lokasi...';
     case 'granted':
+      if (location.mapsUrl) {
+        return 'Lokasi otomatis tersimpan.';
+      }
+      if (location.manualUrl) {
+        return 'Lokasi manual tersimpan.';
+      }
       return 'Lokasi berhasil diambil.';
     case 'denied':
       return 'Izin lokasi ditolak. Gunakan link lokasi manual.';
     case 'error':
       return 'Gagal mengambil lokasi. Gunakan link lokasi manual.';
     default:
+      if (location.manualUrl) {
+        return 'Lokasi manual tersimpan.';
+      }
       return 'Lokasi belum diisi.';
   }
 }
@@ -33,6 +44,8 @@ function getLocationStatusText(location: BuyerLocation): string {
 export default function CheckoutPanel({
   customer,
   onCustomerChange,
+  rememberData,
+  onRememberDataChange,
   buyerLocation,
   manualLocationInput,
   onManualLocationChange,
@@ -89,8 +102,21 @@ export default function CheckoutPanel({
         />
       </label>
 
+      <label className="mt-3 flex items-center gap-2 text-sm text-slate-200 batik-subtle">
+        <input
+          type="checkbox"
+          checked={rememberData}
+          onChange={(event) => onRememberDataChange(event.target.checked)}
+          className="h-4 w-4 rounded border border-slate-500 bg-slate-900 text-amber-300 focus:ring-amber-300/60"
+        />
+        <span>Ingat data saya untuk kunjungan berikutnya.</span>
+      </label>
+
       <div className="mt-4 rounded-xl border border-slate-700 bg-slate-800/70 p-3 batik-card">
-        <div className="flex flex-wrap items-center gap-2">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-200/80">
+          Lokasi Pembeli (Opsional)
+        </p>
+        <div className="mt-2 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={onGetLocation}
@@ -143,7 +169,10 @@ export default function CheckoutPanel({
         type="button"
         onClick={onCheckoutWhatsApp}
         disabled={!canCheckout}
-        className="mt-4 w-full rounded-lg bg-amber-300 px-4 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-black/25 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:bg-amber-300/50 disabled:text-slate-900/80 disabled:opacity-80 batik-accent"
+        className={[
+          'mt-4 w-full rounded-lg bg-amber-300 px-4 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-black/25 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:bg-amber-300/50 disabled:text-slate-900/80 disabled:opacity-80 batik-accent',
+          canCheckout ? 'ring-2 ring-amber-200/70 shadow-amber-300/40' : '',
+        ].join(' ')}
       >
         Pesan via WhatsApp
       </button>

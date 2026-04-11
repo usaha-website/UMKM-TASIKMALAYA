@@ -28,6 +28,8 @@ import type {
 
 const PHONE_ALLOWED = /^[0-9+\-()\s]+$/;
 const PRODUCTS_PER_PAGE = 6;
+const REMEMBER_CHECKOUT_KEY = 'umkm_checkout_remember';
+const REMEMBER_CHECKOUT_DATA_KEY = 'umkm_checkout_data';
 
 function getProductBasePrice(product: Product) {
   if (product.variants.length === 0) {
@@ -48,6 +50,7 @@ export default function HomePageClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [rememberData, setRememberData] = useState(false);
   const [customer, setCustomer] = useState<CustomerInfo>({
     name: '',
     phone: '',
@@ -58,6 +61,42 @@ export default function HomePageClient() {
   const [toast, setToast] = useState('');
 
   const checkoutRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const rememberFlag = window.localStorage.getItem(REMEMBER_CHECKOUT_KEY);
+    const shouldRemember = rememberFlag === 'true';
+    if (!shouldRemember) {
+      return;
+    }
+
+    setRememberData(true);
+    const stored = window.localStorage.getItem(REMEMBER_CHECKOUT_DATA_KEY);
+    if (!stored) {
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(stored) as {
+        customer?: CustomerInfo;
+        locationUrl?: string;
+      };
+
+      if (parsed.customer) {
+        setCustomer(parsed.customer);
+      }
+
+      if (parsed.locationUrl) {
+        setManualLocationInput(parsed.locationUrl);
+        setBuyerLocation({ status: 'granted', manualUrl: parsed.locationUrl });
+      }
+    } catch {
+      // Ignore invalid stored data.
+    }
+  }, []);
 
   useEffect(() => {
     if (!toast) {
@@ -178,8 +217,7 @@ export default function HomePageClient() {
 
   const activeLocationUrl = buyerLocation.mapsUrl || buyerLocation.manualUrl;
 
-  const canCheckout =
-    cart.length > 0 && hasRequiredCustomer && phoneValid && Boolean(activeLocationUrl);
+  const canCheckout = cart.length > 0 && hasRequiredCustomer && phoneValid;
 
   const validationMessage = useMemo(() => {
     if (cart.length === 0) {
@@ -202,12 +240,27 @@ export default function HomePageClient() {
       return 'Alamat wajib diisi.';
     }
 
-    if (!activeLocationUrl) {
-      return 'Lokasi pembeli wajib diisi (otomatis atau link manual).';
+    return null;
+  }, [cart.length, customer.address, customer.name, customer.phone, phoneValid]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
     }
 
-    return null;
-  }, [activeLocationUrl, cart.length, customer.address, customer.name, customer.phone, phoneValid]);
+    if (!rememberData) {
+      window.localStorage.removeItem(REMEMBER_CHECKOUT_DATA_KEY);
+      window.localStorage.setItem(REMEMBER_CHECKOUT_KEY, 'false');
+      return;
+    }
+
+    window.localStorage.setItem(REMEMBER_CHECKOUT_KEY, 'true');
+    const payload = JSON.stringify({
+      customer,
+      locationUrl: activeLocationUrl || '',
+    });
+    window.localStorage.setItem(REMEMBER_CHECKOUT_DATA_KEY, payload);
+  }, [activeLocationUrl, customer, rememberData]);
 
   function handleAddToCart(product: Product, variant: ProductVariant) {
     setCart((current) => addItem(current, product, variant));
@@ -364,6 +417,8 @@ export default function HomePageClient() {
               <CheckoutPanel
                 customer={customer}
                 onCustomerChange={handleCustomerChange}
+                rememberData={rememberData}
+                onRememberDataChange={setRememberData}
                 buyerLocation={buyerLocation}
                 manualLocationInput={manualLocationInput}
                 onManualLocationChange={setManualLocationInput}
