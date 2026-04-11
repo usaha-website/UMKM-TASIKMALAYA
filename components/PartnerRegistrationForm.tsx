@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react';
 
-import { PAYMENT_METHODS } from '@/data/partnerMembership';
 import { buildPartnerRegistrationMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
 import type { PartnerRegistrationForm as PartnerRegistrationFormValues } from '@/types/partner';
 
@@ -14,8 +13,9 @@ const DEFAULT_FORM: PartnerRegistrationFormValues = {
   businessName: '',
   businessField: '',
   businessLocation: '',
-  socialMedia: '',
-  paymentMethod: PAYMENT_METHODS[0]?.value ?? '',
+  instagram: '',
+  facebook: '',
+  tiktok: '',
   bankName: '',
   bankAccountNumber: '',
   bankAccountHolder: '',
@@ -52,9 +52,6 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
   const [form, setForm] = useState<PartnerRegistrationFormValues>(DEFAULT_FORM);
   const [submitted, setSubmitted] = useState(false);
 
-  const isTransferBank = form.paymentMethod === 'Transfer Bank';
-  const isEwallet = form.paymentMethod === 'E-Wallet';
-
   const errors = useMemo(() => {
     const nextErrors: Partial<Record<FieldName, string>> = {};
     const cleanPhoneDigits = form.whatsapp.replace(/\D/g, '');
@@ -88,15 +85,12 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
       nextErrors.businessLocation = 'Lokasi usaha wajib diisi.';
     }
 
-    if (!form.socialMedia.trim()) {
-      nextErrors.socialMedia = 'Media sosial usaha wajib diisi.';
-    }
+    const hasBankField =
+      form.bankName.trim() || form.bankAccountNumber.trim() || form.bankAccountHolder.trim();
+    const hasEwalletField =
+      form.ewalletName.trim() || form.ewalletPhone.trim() || form.ewalletAccountHolder.trim();
 
-    if (!form.paymentMethod.trim()) {
-      nextErrors.paymentMethod = 'Silakan pilih metode pembayaran.';
-    }
-
-    if (isTransferBank) {
+    if (hasBankField) {
       if (!form.bankName.trim()) {
         nextErrors.bankName = 'Nama bank wajib diisi.';
       }
@@ -110,7 +104,7 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
       }
     }
 
-    if (isEwallet) {
+    if (hasEwalletField) {
       if (!form.ewalletName.trim()) {
         nextErrors.ewalletName = 'Nama e-wallet wajib diisi.';
       }
@@ -127,7 +121,7 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
     }
 
     return nextErrors;
-  }, [form, isEwallet, isTransferBank]);
+  }, [form]);
 
   const isValid = Object.keys(errors).length === 0;
 
@@ -137,18 +131,6 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
         ...current,
         [field]: value,
       };
-
-      if (field === 'paymentMethod' && value === 'Transfer Bank') {
-        nextState.ewalletName = '';
-        nextState.ewalletPhone = '';
-        nextState.ewalletAccountHolder = '';
-      }
-
-      if (field === 'paymentMethod' && value === 'E-Wallet') {
-        nextState.bankName = '';
-        nextState.bankAccountNumber = '';
-        nextState.bankAccountHolder = '';
-      }
 
       return nextState;
     });
@@ -232,6 +214,9 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
 
           <div className="rounded-3xl border border-slate-700/60 bg-slate-950/45 p-4">
             <p className="text-sm font-semibold text-slate-50">2. Profil Usaha (UMKM)</p>
+            <p className="mt-2 text-sm text-slate-300">
+              Media sosial opsional. Cukup isi username agar kami bisa cek akun Anda.
+            </p>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               <label className="block">
                 <span className="text-sm font-medium text-slate-200">Nama Usaha / Brand</span>
@@ -266,15 +251,40 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
                 <FieldError field="businessLocation" errors={errors} submitted={submitted} />
               </label>
 
-              <label className="block md:col-span-2">
-                <span className="text-sm font-medium text-slate-200">Media Sosial Usaha</span>
+              <label className="block">
+                <span className="text-sm font-medium text-slate-200">Instagram (Opsional)</span>
                 <input
-                  value={form.socialMedia}
-                  onChange={(event) => handleChange('socialMedia', event.target.value)}
-                  placeholder="Instagram / TikTok / Facebook"
+                  value={form.instagram}
+                  onChange={(event) =>
+                    handleChange('instagram', event.target.value.toLowerCase())
+                  }
+                  placeholder="Contoh: umkmku"
                   className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
                 />
-                <FieldError field="socialMedia" errors={errors} submitted={submitted} />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-medium text-slate-200">Facebook (Opsional)</span>
+                <input
+                  value={form.facebook}
+                  onChange={(event) =>
+                    handleChange('facebook', event.target.value.toLowerCase())
+                  }
+                  placeholder="Contoh: umkmku.id"
+                  className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                />
+              </label>
+
+              <label className="block md:col-span-2">
+                <span className="text-sm font-medium text-slate-200">TikTok (Opsional)</span>
+                <input
+                  value={form.tiktok}
+                  onChange={(event) =>
+                    handleChange('tiktok', event.target.value.toLowerCase())
+                  }
+                  placeholder="Contoh: umkmku"
+                  className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                />
               </label>
             </div>
           </div>
@@ -282,107 +292,87 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
           <div className="rounded-3xl border border-slate-700/60 bg-slate-950/45 p-4">
             <p className="text-sm font-semibold text-slate-50">3. Metode Pembayaran</p>
             <p className="mt-2 text-sm leading-6 text-slate-300">
-              Pilih cara pembayaran terlebih dulu. Setelah itu, form akan menampilkan detail yang
-              perlu Anda isi sesuai metode yang dipilih.
+              Isi salah satu atau keduanya (Transfer Bank dan/atau E-Wallet). Bagian ini opsional.
             </p>
 
             <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <label className="block md:col-span-2">
-                <span className="text-sm font-medium text-slate-200">Pilih Pembayaran</span>
-                <select
-                  value={form.paymentMethod}
-                  onChange={(event) => handleChange('paymentMethod', event.target.value)}
+              <div className="md:col-span-2">
+                <p className="text-sm font-semibold text-slate-50">Transfer Bank (Opsional)</p>
+              </div>
+
+              <label className="block">
+                <span className="text-sm font-medium text-slate-200">Nama Bank</span>
+                <input
+                  value={form.bankName}
+                  onChange={(event) => handleChange('bankName', event.target.value)}
+                  placeholder="Contoh: BCA, BRI, Mandiri"
                   className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
-                >
-                  {PAYMENT_METHODS.map((item) => (
-                    <option key={item.value} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
-                <p className="mt-2 text-xs text-slate-400">
-                  {PAYMENT_METHODS.find((item) => item.value === form.paymentMethod)?.description}
-                </p>
-                <FieldError field="paymentMethod" errors={errors} submitted={submitted} />
+                />
+                <FieldError field="bankName" errors={errors} submitted={submitted} />
               </label>
 
-              {isTransferBank ? (
-                <>
-                  <label className="block">
-                    <span className="text-sm font-medium text-slate-200">Nama Bank</span>
-                    <input
-                      value={form.bankName}
-                      onChange={(event) => handleChange('bankName', event.target.value)}
-                      placeholder="Contoh: BCA, BRI, Mandiri"
-                      className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
-                    />
-                    <FieldError field="bankName" errors={errors} submitted={submitted} />
-                  </label>
+              <label className="block">
+                <span className="text-sm font-medium text-slate-200">Nomor Rekening</span>
+                <input
+                  value={form.bankAccountNumber}
+                  onChange={(event) => handleChange('bankAccountNumber', event.target.value)}
+                  placeholder="Masukkan nomor rekening"
+                  className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                />
+                <FieldError field="bankAccountNumber" errors={errors} submitted={submitted} />
+              </label>
 
-                  <label className="block">
-                    <span className="text-sm font-medium text-slate-200">Nomor Rekening</span>
-                    <input
-                      value={form.bankAccountNumber}
-                      onChange={(event) => handleChange('bankAccountNumber', event.target.value)}
-                      placeholder="Masukkan nomor rekening"
-                      className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
-                    />
-                    <FieldError field="bankAccountNumber" errors={errors} submitted={submitted} />
-                  </label>
+              <label className="block md:col-span-2">
+                <span className="text-sm font-medium text-slate-200">Atas Nama</span>
+                <input
+                  value={form.bankAccountHolder}
+                  onChange={(event) => handleChange('bankAccountHolder', event.target.value)}
+                  placeholder="Nama pemilik rekening"
+                  className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                />
+                <FieldError field="bankAccountHolder" errors={errors} submitted={submitted} />
+              </label>
 
-                  <label className="block md:col-span-2">
-                    <span className="text-sm font-medium text-slate-200">Atas Nama</span>
-                    <input
-                      value={form.bankAccountHolder}
-                      onChange={(event) => handleChange('bankAccountHolder', event.target.value)}
-                      placeholder="Nama pemilik rekening"
-                      className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
-                    />
-                    <FieldError field="bankAccountHolder" errors={errors} submitted={submitted} />
-                  </label>
-                </>
-              ) : null}
+              <div className="md:col-span-2">
+                <p className="text-sm font-semibold text-slate-50">E-Wallet (Opsional)</p>
+              </div>
 
-              {isEwallet ? (
-                <>
-                  <label className="block">
-                    <span className="text-sm font-medium text-slate-200">Nama E-Wallet</span>
-                    <input
-                      value={form.ewalletName}
-                      onChange={(event) => handleChange('ewalletName', event.target.value)}
-                      placeholder="Contoh: GoPay, OVO, DANA"
-                      className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
-                    />
-                    <FieldError field="ewalletName" errors={errors} submitted={submitted} />
-                  </label>
+              <label className="block">
+                <span className="text-sm font-medium text-slate-200">Nama E-Wallet</span>
+                <input
+                  value={form.ewalletName}
+                  onChange={(event) => handleChange('ewalletName', event.target.value)}
+                  placeholder="Contoh: GoPay, OVO, DANA"
+                  className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                />
+                <FieldError field="ewalletName" errors={errors} submitted={submitted} />
+              </label>
 
-                  <label className="block">
-                    <span className="text-sm font-medium text-slate-200">Nomor HP E-Wallet</span>
-                    <input
-                      value={form.ewalletPhone}
-                      onChange={(event) => handleChange('ewalletPhone', event.target.value)}
-                      placeholder="Nomor yang terdaftar di e-wallet"
-                      className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
-                    />
-                    <FieldError field="ewalletPhone" errors={errors} submitted={submitted} />
-                  </label>
+              <label className="block">
+                <span className="text-sm font-medium text-slate-200">Nomor HP E-Wallet</span>
+                <input
+                  value={form.ewalletPhone}
+                  onChange={(event) => handleChange('ewalletPhone', event.target.value)}
+                  placeholder="Nomor yang terdaftar di e-wallet"
+                  className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                />
+                <FieldError field="ewalletPhone" errors={errors} submitted={submitted} />
+              </label>
 
-                  <label className="block md:col-span-2">
-                    <span className="text-sm font-medium text-slate-200">Atas Nama</span>
-                    <input
-                      value={form.ewalletAccountHolder}
-                      onChange={(event) => handleChange('ewalletAccountHolder', event.target.value)}
-                      placeholder="Nama pemilik akun e-wallet"
-                      className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
-                    />
-                    <FieldError
-                      field="ewalletAccountHolder"
-                      errors={errors}
-                      submitted={submitted}
-                    />
-                  </label>
-                </>
-              ) : null}
+              <label className="block md:col-span-2">
+                <span className="text-sm font-medium text-slate-200">Atas Nama</span>
+                <input
+                  value={form.ewalletAccountHolder}
+                  onChange={(event) => handleChange('ewalletAccountHolder', event.target.value)}
+                  placeholder="Nama pemilik akun e-wallet"
+                  className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                />
+                <FieldError
+                  field="ewalletAccountHolder"
+                  errors={errors}
+                  submitted={submitted}
+                />
+              </label>
             </div>
           </div>
         </div>
@@ -396,6 +386,7 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
           <button
             type="button"
             onClick={handleSubmit}
+            disabled={!isValid}
             className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-300"
           >
             Daftar Sekarang

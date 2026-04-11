@@ -70,18 +70,79 @@ export function buildWhatsAppUrl(number: string, message: string): string {
 }
 
 export function buildPartnerRegistrationMessage(form: PartnerRegistrationForm): string {
-  const paymentDetails =
-    form.paymentMethod === 'Transfer Bank'
+  const normalizeSocialUrl = (
+    platform: 'instagram' | 'facebook' | 'tiktok',
+    rawValue: string,
+  ): string => {
+    const trimmed = rawValue.trim();
+    if (!trimmed) {
+      return '';
+    }
+
+    const cleaned = trimmed.replace(/\s+/g, '');
+    const lower = cleaned.toLowerCase();
+    const domainMap = {
+      instagram: 'instagram.com',
+      facebook: 'facebook.com',
+      tiktok: 'tiktok.com',
+    } as const;
+
+    if (lower.startsWith('http://') || lower.startsWith('https://')) {
+      return cleaned;
+    }
+
+    const domain = domainMap[platform];
+    if (lower.includes(domain)) {
+      return `https://${cleaned.replace(/^https?:\/\//i, '')}`;
+    }
+
+    const username = cleaned.replace(/^@+/, '');
+    if (!username) {
+      return '';
+    }
+
+    if (platform === 'tiktok') {
+      return `https://www.tiktok.com/@${username}`;
+    }
+
+    if (platform === 'instagram') {
+      return `https://www.instagram.com/${username}`;
+    }
+
+    return `https://www.facebook.com/${username}`;
+  };
+
+  const socialLines = [
+    { label: 'Instagram', value: normalizeSocialUrl('instagram', form.instagram) },
+    { label: 'Facebook', value: normalizeSocialUrl('facebook', form.facebook) },
+    { label: 'TikTok', value: normalizeSocialUrl('tiktok', form.tiktok) },
+  ]
+    .filter((item) => item.value)
+    .map((item) => `${item.label}: ${item.value}`);
+
+  const hasBankDetails =
+    form.bankName.trim() || form.bankAccountNumber.trim() || form.bankAccountHolder.trim();
+  const hasEwalletDetails =
+    form.ewalletName.trim() || form.ewalletPhone.trim() || form.ewalletAccountHolder.trim();
+
+  const paymentDetails = [
+    ...(hasBankDetails
       ? [
+          'Transfer Bank:',
           `Nama Bank: ${form.bankName}`,
           `Nomor Rekening: ${form.bankAccountNumber}`,
           `Atas Nama: ${form.bankAccountHolder}`,
         ]
-      : [
+      : []),
+    ...(hasEwalletDetails
+      ? [
+          'E-Wallet:',
           `Nama E-Wallet: ${form.ewalletName}`,
           `Nomor HP E-Wallet: ${form.ewalletPhone}`,
           `Atas Nama: ${form.ewalletAccountHolder}`,
-        ];
+        ]
+      : []),
+  ];
 
   return [
     'Halo admin UMKM-Tasikmalaya, saya ingin daftar Partner UMKM.',
@@ -96,11 +157,12 @@ export function buildPartnerRegistrationMessage(form: PartnerRegistrationForm): 
     `Nama Usaha/Brand: ${form.businessName}`,
     `Bidang Usaha: ${form.businessField}`,
     `Alamat/Lokasi Usaha: ${form.businessLocation}`,
-    `Media Sosial Usaha: ${form.socialMedia}`,
+    ...(socialLines.length
+      ? ['Media Sosial Usaha:', ...socialLines]
+      : []),
     '',
     'Detail Pembayaran:',
-    `Metode Pembayaran: ${form.paymentMethod}`,
-    ...paymentDetails,
+    ...(paymentDetails.length ? paymentDetails : ['Belum diisi.']),
   ].join('\n');
 }
 

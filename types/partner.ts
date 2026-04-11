@@ -12,8 +12,9 @@ export type PartnerRegistrationForm = {
   businessName: string;
   businessField: string;
   businessLocation: string;
-  socialMedia: string;
-  paymentMethod: string;
+  instagram: string;
+  facebook: string;
+  tiktok: string;
   bankName: string;
   bankAccountNumber: string;
   bankAccountHolder: string;
