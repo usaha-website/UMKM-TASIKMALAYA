@@ -45,6 +45,7 @@ export default function HomePageClient() {
   const [sortOption, setSortOption] = useState<ProductSortOption>('featured');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [customer, setCustomer] = useState<CustomerInfo>({
     name: '',
     phone: '',
@@ -308,6 +309,13 @@ export default function HomePageClient() {
     );
   }, []);
 
+  const floatingChatUrl = useMemo(() => {
+    return buildWhatsAppUrl(
+      storeConfig.waNumber,
+      `Halo admin ${storeConfig.storeName}, saya ingin tanya produk.`,
+    );
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <StoreHeader
@@ -368,14 +376,16 @@ export default function HomePageClient() {
             </div>
           </div>
 
-          <CartDrawer
-            cart={cart}
-            onIncrease={handleQtyChange}
-            onDecrease={handleQtyChange}
-            onRemove={handleRemoveItem}
-            onClear={handleClearCart}
-            onCheckoutFocus={handleCheckoutFocus}
-          />
+          <div className="hidden lg:block">
+            <CartDrawer
+              cart={cart}
+              onIncrease={handleQtyChange}
+              onDecrease={handleQtyChange}
+              onRemove={handleRemoveItem}
+              onClear={handleClearCart}
+              onCheckoutFocus={handleCheckoutFocus}
+            />
+          </div>
         </div>
 
         <StoreMapSection
@@ -387,6 +397,72 @@ export default function HomePageClient() {
       </main>
 
       {toast ? <ToastNotice message={toast} /> : null}
+
+      {isCartOpen ? (
+        <div
+          className="fixed inset-0 z-[95] flex items-end justify-center bg-slate-950/60 p-4 backdrop-blur-sm lg:hidden"
+          onClick={() => setIsCartOpen(false)}
+          aria-hidden="true"
+        >
+          <div
+            className="w-full max-w-md"
+            onClick={(event) => event.stopPropagation()}
+            aria-label="Keranjang belanja"
+          >
+            <CartDrawer
+              cart={cart}
+              onIncrease={handleQtyChange}
+              onDecrease={handleQtyChange}
+              onRemove={handleRemoveItem}
+              onClear={handleClearCart}
+              onCheckoutFocus={handleCheckoutFocus}
+              variant="modal"
+              onClose={() => setIsCartOpen(false)}
+            />
+          </div>
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        onClick={() => setIsCartOpen(true)}
+        className="fixed bottom-6 left-1/2 z-[90] inline-flex -translate-x-1/2 items-center justify-center gap-2 rounded-full border border-emerald-300/40 bg-emerald-300/20 px-5 py-3 text-sm font-semibold text-emerald-100 shadow-lg shadow-black/30 backdrop-blur transition hover:bg-emerald-300/30 lg:hidden"
+        aria-label="Buka keranjang"
+      >
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
+          <path
+            d="M6 7h14l-1.5 8.5a2 2 0 0 1-2 1.5H9a2 2 0 0 1-2-1.5L5 4H3"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="10" cy="20" r="1.6" fill="currentColor" />
+          <circle cx="17" cy="20" r="1.6" fill="currentColor" />
+        </svg>
+        Keranjang
+        {cart.length > 0 ? (
+          <span className="ml-1 inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-emerald-500 px-1 text-xs font-bold text-slate-950">
+            {cart.reduce((sum, item) => sum + item.qty, 0)}
+          </span>
+        ) : null}
+      </button>
+
+      <a
+        href={floatingChatUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="fixed bottom-6 right-6 z-[90] inline-flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-slate-950 shadow-lg shadow-black/30 transition hover:bg-emerald-400"
+        aria-label="Chat WhatsApp"
+      >
+        <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
+          <path d="M20.5 11.8a8.5 8.5 0 1 0-15.7 4.8L4 21l4.5-1.2a8.5 8.5 0 0 0 12-8z" />
+          <path
+            d="M9.1 7.8c.2-.4.4-.4.6-.4h.5c.1 0 .3 0 .4.3.2.4.6 1.3.7 1.4.1.1.1.3 0 .4-.1.1-.2.3-.3.4-.1.1-.2.2-.1.4.1.2.5.9 1.1 1.5.7.7 1.3 1 1.5 1.1.2.1.3 0 .4-.1.1-.1.3-.3.4-.4.1-.1.2-.1.4 0 .1.1 1 .5 1.4.7.3.1.3.2.3.4 0 .2 0 .7-.3 1-.3.3-.8.4-1.1.3-.3 0-1.1-.3-2.1-.9-1.2-.7-2-1.6-2.3-2-.3-.4-.8-1.1-.9-2.1-.1-.5.1-1 .3-1.2z"
+            fill="#0f172a"
+          />
+        </svg>
+      </a>
     </div>
   );
 }

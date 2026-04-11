@@ -9,6 +9,8 @@ type CartDrawerProps = {
   onRemove: (key: string) => void;
   onClear: () => void;
   onCheckoutFocus: () => void;
+  variant?: 'panel' | 'modal';
+  onClose?: () => void;
 };
 
 export default function CartDrawer({
@@ -18,16 +20,36 @@ export default function CartDrawer({
   onRemove,
   onClear,
   onCheckoutFocus,
+  variant = 'panel',
+  onClose,
 }: CartDrawerProps) {
   const totals = computeCartTotals(cart);
+  const isModal = variant === 'modal';
 
   return (
-    <aside className="sticky top-4 h-fit rounded-2xl border border-slate-700 bg-slate-900/80 p-4 shadow-xl shadow-black/25">
-      <div className="mb-4 flex items-center justify-between">
+    <aside
+      className={
+        isModal
+          ? 'w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900/95 p-4 shadow-2xl shadow-black/40'
+          : 'sticky top-4 h-fit rounded-2xl border border-slate-700 bg-slate-900/80 p-4 shadow-xl shadow-black/25'
+      }
+    >
+      <div className="mb-4 flex items-center justify-between gap-3">
         <h2 className="text-lg font-bold text-slate-100">Keranjang</h2>
-        <span className="rounded-full bg-slate-800 px-2.5 py-1 text-xs font-semibold text-slate-200">
-          {totals.totalQty} item
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-slate-800 px-2.5 py-1 text-xs font-semibold text-slate-200">
+            {totals.totalQty} item
+          </span>
+          {isModal && onClose ? (
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-lg border border-slate-600 px-2.5 py-1 text-xs font-semibold text-slate-200 transition hover:bg-slate-800"
+            >
+              Tutup
+            </button>
+          ) : null}
+        </div>
       </div>
 
       {cart.length === 0 ? (

@@ -1,3 +1,7 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
 import ProductCard from '@/components/ProductCard';
 import type { Product, ProductSortOption, ProductVariant } from '@/types/store';
 
@@ -57,8 +61,13 @@ export default function ProductGrid({
   onOpenFilters,
   onPageChange,
 }: ProductGridProps) {
+  const [draftQuery, setDraftQuery] = useState(searchQuery);
   const startIndex = totalProducts === 0 ? 0 : (currentPage - 1) * 6 + 1;
   const endIndex = totalProducts === 0 ? 0 : startIndex + products.length - 1;
+
+  useEffect(() => {
+    setDraftQuery(searchQuery);
+  }, [searchQuery]);
 
   return (
     <section id="produk" className="space-y-4">
@@ -75,8 +84,13 @@ export default function ProductGrid({
             <label className="block sm:min-w-[320px]">
               <span className="sr-only">Cari produk</span>
               <input
-                value={searchQuery}
-                onChange={(event) => onSearchChange(event.target.value)}
+                value={draftQuery}
+                onChange={(event) => setDraftQuery(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    onSearchChange(draftQuery);
+                  }
+                }}
                 placeholder="Cari nama produk atau deskripsi..."
                 className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
               />

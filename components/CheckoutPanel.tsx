@@ -101,6 +101,10 @@ export default function CheckoutPanel({
           </button>
           <span className="text-xs text-slate-300">{statusText}</span>
         </div>
+        <p className="mt-2 text-xs text-slate-400">
+          Klik tombol <span className="font-semibold text-emerald-200">Ambil Lokasi Saya</span> untuk
+          mengisi lokasi otomatis.
+        </p>
 
         {locationUrl ? (
           <p className="mt-2 break-all text-xs text-emerald-200">Lokasi aktif: {locationUrl}</p>

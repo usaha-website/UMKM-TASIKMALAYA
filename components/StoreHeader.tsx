@@ -199,7 +199,7 @@ export default function StoreHeader({
               <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-300">
                 UMKM
               </p>
-              <h1 className="truncate text-xl font-bold text-slate-100 md:text-2xl">
+              <h1 className="break-words text-lg font-bold leading-tight text-slate-100 sm:text-xl md:text-2xl">
                 {storeLabel || 'Tasikmalaya'}
               </h1>
             </div>
@@ -210,9 +210,9 @@ export default function StoreHeader({
               href={mapUrl}
               target="_blank"
               rel="noreferrer"
-              className="hidden rounded-xl border border-slate-600/80 bg-slate-900/40 px-3 py-2 text-sm font-semibold text-slate-100 transition hover:border-slate-500 hover:bg-slate-900/70 md:inline-flex"
+              className="inline-flex rounded-xl border border-slate-600/80 bg-slate-900/40 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-slate-500 hover:bg-slate-900/70 sm:text-sm"
             >
-              Lihat Lokasi
+              Lihat Map
             </a>
             <a
               href={chatUrl}
