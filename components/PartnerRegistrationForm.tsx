@@ -172,17 +172,13 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
       className="rounded-[2rem] border border-slate-700/70 bg-slate-900/55 p-4 shadow-2xl shadow-black/20 backdrop-blur sm:p-5 md:p-7"
     >
       <div className="mx-auto max-w-4xl space-y-5">
-        <div>
+        <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-200/85">
             Form Pendaftaran
           </p>
           <h2 className="font-display mt-3 text-3xl font-semibold text-slate-50 md:text-4xl">
-            Isi data singkat, lalu lanjut kirim ke WhatsApp.
+            Form Partner UMKM
           </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-200/80 md:text-base">
-            Kami buat form ini sesingkat mungkin agar admin langsung menerima data usaha dan pilihan
-            pembayaran yang sesuai.
-          </p>
         </div>
 
         <div className="grid gap-4">
@@ -402,7 +398,7 @@ export default function PartnerRegistrationForm({ waNumber }: PartnerRegistratio
             onClick={handleSubmit}
             className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-300"
           >
-            Daftar Sekarang via WhatsApp
+            Daftar Sekarang
           </button>
           {!isValid && submitted ? (
             <p className="mt-3 text-sm text-amber-200">

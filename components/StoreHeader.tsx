@@ -41,7 +41,7 @@ function HeaderLink({
   const className =
     variant === 'solid'
       ? 'inline-flex items-center justify-center rounded-xl bg-slate-50 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-white'
-      : 'inline-flex items-center justify-center rounded-xl border border-slate-500/80 bg-slate-900/30 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-900/60';
+      : 'inline-flex items-center justify-center rounded-xl border border-amber-300/35 bg-[rgba(28,20,12,0.6)] px-5 py-3 text-sm font-semibold text-slate-100 transition hover:bg-[rgba(32,22,13,0.8)]';
 
   if (action.external) {
     return (
@@ -77,10 +77,7 @@ export default function StoreHeader({
     href: '#produk',
     label: 'Mulai Belanja',
   },
-  secondaryAction = {
-    href: '#checkout',
-    label: 'Langsung Checkout',
-  },
+  secondaryAction,
   infoTitle = 'Cara pesan',
   infoSteps = [
     {
@@ -120,16 +117,16 @@ export default function StoreHeader({
   }, [isMenuOpen]);
 
   return (
-    <header className="relative overflow-hidden border-b border-slate-700/70 bg-slate-950">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_48%),radial-gradient(circle_at_bottom_right,rgba(16,185,129,0.16),transparent_55%)]" />
+    <header className="batik-hero relative overflow-hidden border-b border-amber-300/25 bg-[rgba(20,15,10,0.9)]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(214,178,123,0.18),transparent_48%),radial-gradient(circle_at_bottom_right,rgba(199,155,91,0.16),transparent_55%)]" />
       {isMenuOpen ? (
         <div
-          className="fixed inset-0 z-40 bg-slate-950/45 backdrop-blur-[2px]"
+          className="fixed inset-0 z-40 bg-[rgba(20,15,10,0.65)] backdrop-blur-[2px]"
           onClick={() => setIsMenuOpen(false)}
         >
           <div
             id="site-menu"
-            className="absolute right-4 top-1/2 w-[min(22rem,calc(100vw-2rem))] -translate-y-1/2 rounded-[2rem] border border-slate-700/80 bg-slate-950/95 p-5 shadow-2xl shadow-black/50"
+            className="absolute right-4 top-1/2 w-[min(22rem,calc(100vw-2rem))] -translate-y-1/2 rounded-[2rem] border border-amber-300/25 bg-[rgba(20,15,10,0.95)] p-5 shadow-2xl shadow-black/50"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between gap-3">
@@ -144,7 +141,7 @@ export default function StoreHeader({
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(false)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-700 bg-slate-900/80 text-slate-200 transition hover:border-slate-500 hover:text-white"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-amber-300/25 bg-[rgba(28,20,12,0.7)] text-slate-200 transition hover:border-amber-300/60 hover:text-white"
                 aria-label="Tutup menu"
               >
                 <span className="text-lg">×</span>
@@ -157,7 +154,7 @@ export default function StoreHeader({
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900/70 px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-emerald-400/40 hover:bg-slate-900"
+                  className="flex items-center justify-between rounded-2xl border border-amber-300/20 bg-[rgba(28,20,12,0.7)] px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-amber-300/50 hover:bg-[rgba(32,22,13,0.8)]"
                 >
                   <span>{item.label}</span>
                   <span className="text-slate-500">→</span>
@@ -175,7 +172,14 @@ export default function StoreHeader({
                 rel="noreferrer"
                 className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-emerald-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300"
               >
-                Chat WhatsApp
+                <Image
+                  src="/whatsapp-logo.svg"
+                  alt="WhatsApp"
+                  width={22}
+                  height={22}
+                  className="h-5 w-5"
+                />
+                <span className="sr-only">Chat WhatsApp</span>
               </a>
             </div>
           </div>
@@ -185,7 +189,7 @@ export default function StoreHeader({
       <div className="relative mx-auto w-full max-w-7xl px-4 py-10 md:px-6 md:py-14">
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-3xl border border-slate-700/70 bg-slate-900/50 p-2 shadow-lg shadow-black/20 md:h-[72px] md:w-[72px]">
+            <div className="inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-3xl border border-amber-300/25 bg-[rgba(28,20,12,0.7)] p-2 shadow-lg shadow-black/20 md:h-[72px] md:w-[72px]">
               <Image
                 src="/LogoUMKM%20Tasikmalaya-Photoroom.png"
                 alt="Logo UMKM Tasikmalaya GEUWAT"
@@ -210,22 +214,14 @@ export default function StoreHeader({
               href={mapUrl}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex rounded-xl border border-slate-600/80 bg-slate-900/40 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-slate-500 hover:bg-slate-900/70 sm:text-sm"
+              className="inline-flex rounded-xl border border-amber-300/35 bg-[rgba(28,20,12,0.6)] px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-amber-300/60 hover:bg-[rgba(32,22,13,0.8)] sm:text-sm"
             >
               Lihat Map
-            </a>
-            <a
-              href={chatUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-emerald-400"
-            >
-              Chat WhatsApp
             </a>
             <button
               type="button"
               onClick={() => setIsMenuOpen((current) => !current)}
-              className="inline-flex h-11 w-11 flex-col items-center justify-center gap-1 rounded-2xl border border-slate-600/80 bg-slate-900/40 transition hover:border-slate-500 hover:bg-slate-900/70"
+              className="inline-flex h-11 w-11 flex-col items-center justify-center gap-1 rounded-2xl border border-amber-300/35 bg-[rgba(28,20,12,0.6)] transition hover:border-amber-300/60 hover:bg-[rgba(32,22,13,0.8)]"
               aria-expanded={isMenuOpen}
               aria-controls="site-menu"
               aria-label="Buka menu navigasi"
@@ -249,29 +245,29 @@ export default function StoreHeader({
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <HeaderLink action={primaryAction} />
-              <HeaderLink action={secondaryAction} variant="outline" />
+              {secondaryAction ? <HeaderLink action={secondaryAction} variant="outline" /> : null}
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-700/70 bg-slate-900/45 p-5 shadow-xl shadow-black/25 backdrop-blur">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-300">
+          <div className="rounded-3xl border border-slate-700/70 bg-slate-900/45 p-5 shadow-xl shadow-black/25 backdrop-blur batik-surface">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-300 batik-subtle">
               {infoTitle}
             </p>
             <ol className="mt-3 space-y-3 text-sm text-slate-100">
               {infoSteps.map((item, index) => (
                 <li key={item.title} className="flex gap-3">
-                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-800 text-xs font-bold text-slate-100">
+                  <span className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-800 text-xs font-bold text-slate-100 batik-pill">
                     {index + 1}
                   </span>
                   <span>
                     <strong className="font-semibold text-slate-50">{item.title}</strong>{' '}
-                    <span className="text-slate-300">{item.description}</span>
+                    <span className="text-slate-300 batik-subtle">{item.description}</span>
                   </span>
                 </li>
               ))}
             </ol>
 
-            <p className="mt-4 rounded-2xl border border-amber-300/25 bg-amber-300/10 px-4 py-3 text-sm text-amber-50/90">
+            <p className="mt-4 rounded-2xl border border-amber-300/25 bg-amber-300/10 px-4 py-3 text-sm text-amber-50/90 batik-card batik-subtle">
               {infoNote}
             </p>
           </div>
@@ -280,3 +276,5 @@ export default function StoreHeader({
     </header>
   );
 }
+
+

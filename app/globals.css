@@ -4,6 +4,10 @@
 
 :root {
   color-scheme: dark;
+  --batik-bg: #140f0a;
+  --batik-ink: #f4e9d6;
+  --batik-accent: #c79b5b;
+  --batik-accent-strong: #d6b27b;
 }
 
 html,
@@ -15,12 +19,16 @@ body {
 
 body {
   position: relative;
-  background:
-    radial-gradient(900px circle at 10% -10%, rgba(34, 211, 238, 0.14), transparent 55%),
-    radial-gradient(750px circle at 100% 0%, rgba(16, 185, 129, 0.14), transparent 55%),
-    radial-gradient(900px circle at 30% 120%, rgba(245, 158, 11, 0.08), transparent 60%),
-    linear-gradient(180deg, #030712 0%, #020617 100%);
-  color: #e2e8f0;
+  background-color: var(--batik-bg);
+  background-image:
+    radial-gradient(900px circle at 10% -10%, rgba(199, 155, 91, 0.22), transparent 55%),
+    radial-gradient(900px circle at 110% 0%, rgba(214, 178, 123, 0.16), transparent 58%),
+    radial-gradient(900px circle at 30% 120%, rgba(245, 215, 160, 0.12), transparent 62%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' fill='none'/%3E%3Cg fill='none' stroke='%23d6b27b' stroke-opacity='0.35' stroke-width='2'%3E%3Cpath d='M0 40c30 0 30-24 60-24s30 24 60 24 30-24 60-24 30 24 60 24'/%3E%3Cpath d='M0 130c30 0 30-24 60-24s30 24 60 24 30-24 60-24 30 24 60 24'/%3E%3Cpath d='M0 220c30 0 30-24 60-24s30 24 60 24 30-24 60-24 30 24 60 24'/%3E%3Cpath d='M40 0c0 30-24 30-24 60s24 30 24 60-24 30-24 60 24 30 24 60'/%3E%3Cpath d='M130 0c0 30-24 30-24 60s24 30 24 60-24 30-24 60 24 30 24 60'/%3E%3Cpath d='M220 0c0 30-24 30-24 60s24 30 24 60-24 30-24 60 24 30 24 60'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='none'/%3E%3Cg fill='none' stroke='%23c79b5b' stroke-opacity='0.25' stroke-width='2'%3E%3Cpath d='M0 90c22 0 22-20 44-20s22 20 44 20 22-20 44-20 22 20 44 20'/%3E%3Cpath d='M90 0c0 22-20 22-20 44s20 22 20 44-20 22-20 44 20 22 20 44'/%3E%3C/g%3E%3C/svg%3E");
+  background-blend-mode: screen, screen, screen, overlay, soft-light;
+  background-size: auto, auto, auto, 260px 260px, 180px 180px;
+  color: var(--batik-ink);
   font-family:
     var(--font-body),
     ui-sans-serif,
@@ -36,15 +44,55 @@ body::before {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-  background-size: 64px 64px;
-  opacity: 0.35;
+    linear-gradient(120deg, rgba(199, 155, 91, 0.08) 0%, transparent 35%, rgba(214, 178, 123, 0.08) 70%),
+    radial-gradient(circle at 20% 15%, rgba(199, 155, 91, 0.18), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(214, 178, 123, 0.16), transparent 45%),
+    radial-gradient(circle at 40% 90%, rgba(245, 215, 160, 0.12), transparent 45%);
+  opacity: 0.85;
 }
 
 .font-display {
   font-family: var(--font-display), ui-serif, Georgia, serif;
   letter-spacing: -0.02em;
+}
+
+.batik-surface {
+  background: rgba(20, 15, 10, 0.82);
+  border-color: rgba(199, 155, 91, 0.35);
+  box-shadow: 0 18px 40px rgba(6, 4, 2, 0.55);
+}
+
+.batik-card {
+  background: rgba(24, 17, 12, 0.75);
+  border-color: rgba(214, 178, 123, 0.35);
+}
+
+.batik-outline {
+  border-color: rgba(199, 155, 91, 0.45);
+}
+
+.batik-pill {
+  background: rgba(199, 155, 91, 0.15);
+  border-color: rgba(199, 155, 91, 0.45);
+  color: var(--batik-ink);
+}
+
+.batik-accent {
+  background: linear-gradient(120deg, rgba(214, 178, 123, 0.95), rgba(199, 155, 91, 0.9));
+  color: #23170b;
+}
+
+.batik-accent-outline {
+  border-color: rgba(214, 178, 123, 0.6);
+  color: var(--batik-ink);
+}
+
+.batik-subtle {
+  color: rgba(244, 233, 214, 0.75);
+}
+
+.batik-gold {
+  color: var(--batik-accent-strong);
 }
 
 * {
@@ -63,14 +111,14 @@ body::before {
   appearance: none;
   height: 10px;
   border-radius: 9999px;
-  background: rgba(148, 163, 184, 0.25);
+  background: rgba(199, 155, 91, 0.25);
   outline: none;
 }
 
 .range-slider::-webkit-slider-runnable-track {
   height: 10px;
   border-radius: 9999px;
-  background: rgba(148, 163, 184, 0.25);
+  background: rgba(199, 155, 91, 0.25);
 }
 
 .range-slider::-webkit-slider-thumb {
@@ -79,23 +127,34 @@ body::before {
   width: 18px;
   height: 18px;
   border-radius: 9999px;
-  background: #34d399;
-  border: 2px solid #0f172a;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  background: var(--batik-accent-strong);
+  border: 2px solid #1d140b;
+  box-shadow: 0 0 0 3px rgba(199, 155, 91, 0.25);
   margin-top: -4px;
 }
 
 .range-slider::-moz-range-track {
   height: 10px;
   border-radius: 9999px;
-  background: rgba(148, 163, 184, 0.25);
+  background: rgba(199, 155, 91, 0.25);
 }
 
 .range-slider::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 9999px;
-  background: #34d399;
-  border: 2px solid #0f172a;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  background: var(--batik-accent-strong);
+  border: 2px solid #1d140b;
+  box-shadow: 0 0 0 3px rgba(199, 155, 91, 0.25);
+}
+
+.batik-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Crect width='260' height='260' fill='none'/%3E%3Cg fill='none' stroke='%23d6b27b' stroke-opacity='0.18' stroke-width='2'%3E%3Cpath d='M0 50c35 0 35-30 70-30s35 30 70 30 35-30 70-30 35 30 70 30'/%3E%3Cpath d='M0 210c35 0 35-30 70-30s35 30 70 30 35-30 70-30 35 30 70 30'/%3E%3Cpath d='M50 0c0 35-30 35-30 70s30 35 30 70-30 35-30 70 30 35 30 70'/%3E%3Cpath d='M210 0c0 35-30 35-30 70s30 35 30 70-30 35-30 70 30 35 30 70'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
 }

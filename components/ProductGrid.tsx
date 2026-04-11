@@ -71,11 +71,11 @@ export default function ProductGrid({
 
   return (
     <section id="produk" className="space-y-4">
-      <div className="rounded-[2rem] border border-slate-700/70 bg-slate-900/45 p-4 shadow-xl shadow-black/20 backdrop-blur md:p-5">
+      <div className="rounded-[2rem] border border-slate-700/70 bg-slate-900/45 p-4 shadow-xl shadow-black/20 backdrop-blur md:p-5 batik-surface">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="text-xl font-bold text-slate-100">Produk</h2>
-            <p className="mt-1 text-sm text-slate-300">
+            <p className="mt-1 text-sm text-slate-300 batik-subtle">
               Cari produk lebih cepat, lalu buka filter kiri untuk sortir kategori dan harga.
             </p>
           </div>
@@ -92,14 +92,14 @@ export default function ProductGrid({
                   }
                 }}
                 placeholder="Cari nama produk atau deskripsi..."
-                className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-emerald-400"
+                className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-amber-300/70 batik-outline"
               />
             </label>
 
             <button
               type="button"
               onClick={onOpenFilters}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-600/80 bg-slate-950/70 px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-emerald-300/40 hover:bg-slate-900"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-600/80 bg-slate-950/70 px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-amber-300/60 hover:bg-slate-900 batik-outline"
             >
               <FilterIcon />
               <span>Filter</span>
@@ -107,15 +107,15 @@ export default function ProductGrid({
           </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-300">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-300 batik-subtle">
           <p>
             Menampilkan {startIndex}-{endIndex} dari {totalProducts} produk
           </p>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full border border-slate-700/70 bg-slate-950/60 px-3 py-1">
+            <span className="rounded-full border border-slate-700/70 bg-slate-950/60 px-3 py-1 batik-pill">
               Kategori: {activeCategoryLabel}
             </span>
-            <span className="rounded-full border border-slate-700/70 bg-slate-950/60 px-3 py-1">
+            <span className="rounded-full border border-slate-700/70 bg-slate-950/60 px-3 py-1 batik-pill">
               Urutan: {getSortLabel(sortOption)}
             </span>
           </div>
@@ -134,16 +134,16 @@ export default function ProductGrid({
           ))}
         </div>
       ) : (
-        <div className="rounded-[2rem] border border-dashed border-slate-700/80 bg-slate-900/35 px-5 py-10 text-center">
+        <div className="rounded-[2rem] border border-dashed border-slate-700/80 bg-slate-900/35 px-5 py-10 text-center batik-card">
           <p className="text-lg font-semibold text-slate-100">Produk tidak ditemukan</p>
-          <p className="mt-2 text-sm leading-6 text-slate-300">
+          <p className="mt-2 text-sm leading-6 text-slate-300 batik-subtle">
             Coba ganti kata pencarian, pilih kategori lain, atau ubah sortir dari panel kiri.
           </p>
         </div>
       )}
 
-      <div className="flex flex-col gap-3 rounded-[2rem] border border-slate-700/70 bg-slate-900/35 p-4 md:flex-row md:items-center md:justify-between">
-        <p className="text-sm text-slate-300">
+      <div className="flex flex-col gap-3 rounded-[2rem] border border-slate-700/70 bg-slate-900/35 p-4 md:flex-row md:items-center md:justify-between batik-card">
+        <p className="text-sm text-slate-300 batik-subtle">
           Halaman {currentPage} dari {totalPages}
         </p>
 
@@ -152,7 +152,7 @@ export default function ProductGrid({
             type="button"
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-40 batik-outline"
           >
             Sebelumnya
           </button>
@@ -170,7 +170,7 @@ export default function ProductGrid({
                 className={[
                   'h-10 min-w-10 rounded-2xl border px-3 text-sm font-bold transition',
                   isActive
-                    ? 'border-emerald-300/60 bg-emerald-300/10 text-slate-50'
+                    ? 'border-amber-300/70 bg-amber-300/10 text-slate-50'
                     : 'border-slate-700 bg-slate-950/50 text-slate-100 hover:bg-slate-900',
                 ].join(' ')}
               >
@@ -183,7 +183,7 @@ export default function ProductGrid({
             type="button"
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-2xl border border-slate-700 bg-slate-950/50 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-40 batik-outline"
           >
             Berikutnya
           </button>

@@ -21,7 +21,7 @@ export default function JasaWebsitePage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen text-slate-100">
       <StoreHeader
         storeName={storeConfig.storeName}
         chatUrl={consultationUrl}

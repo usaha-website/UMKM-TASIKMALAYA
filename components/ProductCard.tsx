@@ -137,8 +137,8 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
   }, [previewOpen]);
 
   return (
-    <article className="group flex h-full flex-col rounded-3xl border border-slate-700/80 bg-slate-900/55 p-4 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-emerald-300/40 hover:bg-slate-900/70">
-      <div className="mb-4 overflow-hidden rounded-2xl border border-slate-700/70 bg-slate-800/70 p-4">
+    <article className="group flex h-full flex-col rounded-3xl border border-slate-700/80 bg-slate-900/55 p-4 shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:border-amber-300/40 hover:bg-slate-900/70 batik-card">
+      <div className="mb-4 overflow-hidden rounded-2xl border border-slate-700/70 bg-slate-800/70 p-4 batik-outline">
         <Image
           src={product.image}
           alt={product.name}
@@ -151,10 +151,10 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
       <div className="space-y-2 text-center">
         <h3 className="text-base font-bold text-slate-100">{product.name}</h3>
         <div className="space-y-1">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-300">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-300 batik-subtle">
             Mulai dari
           </p>
-          <p className="text-lg font-bold text-emerald-200">{formatIDR(minPrice)} / pcs</p>
+          <p className="text-lg font-bold text-emerald-200 batik-gold">{formatIDR(minPrice)} / pcs</p>
         </div>
       </div>
 
@@ -166,7 +166,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
           setSelectedColorId(COLOR_OPTIONS[0]?.id ?? '');
           setPreviewOpen(true);
         }}
-        className="mt-5 w-full rounded-2xl bg-slate-50 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-white"
+        className="mt-5 w-full rounded-2xl bg-slate-50 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-white batik-accent"
       >
         Lihat Detail
       </button>
@@ -184,7 +184,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                 }
               }}
             >
-              <div className="mx-auto my-auto flex max-h-[calc(100dvh-2rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-slate-700/80 bg-slate-950/90 shadow-2xl shadow-black/40 backdrop-blur">
+              <div className="mx-auto my-auto flex max-h-[calc(100dvh-2rem)] w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-slate-700/80 bg-slate-950/90 shadow-2xl shadow-black/40 backdrop-blur batik-surface">
                 <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-700/70 px-4 py-3">
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">
@@ -205,7 +205,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                 </div>
 
                 <div className="grid flex-1 gap-0 overflow-y-auto overscroll-contain md:grid-cols-[1.05fr_0.95fr]">
-                  <div className="border-b border-slate-700/70 bg-slate-900/30 p-5 md:border-b-0 md:border-r">
+                  <div className="border-b border-slate-700/70 bg-slate-900/30 p-5 md:border-b-0 md:border-r batik-card">
                     <div className="relative overflow-hidden rounded-3xl border border-slate-700/70 bg-slate-900/40">
                       <div
                         ref={carouselRef}
@@ -281,18 +281,18 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                   </div>
 
                   <div className="p-5 touch-pan-y">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300 batik-subtle">
                       Harga per pcs
                     </p>
-                    <p className="font-display mt-2 text-3xl font-semibold text-emerald-200 md:text-4xl">
+                    <p className="font-display mt-2 text-3xl font-semibold text-emerald-200 md:text-4xl batik-gold">
                       {selectedVariant ? `${formatIDR(selectedVariant.price)} / pcs` : '-'}
                     </p>
 
                     <p className="mt-4 text-sm text-slate-200/80">{product.description}</p>
 
                     {product.details?.length ? (
-                      <div className="mt-5 rounded-3xl border border-slate-700/70 bg-slate-900/35 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+                      <div className="mt-5 rounded-3xl border border-slate-700/70 bg-slate-900/35 p-4 batik-card">
+                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300 batik-subtle">
                           Keterangan Produk
                         </p>
                         <dl className="mt-3 space-y-3">
@@ -301,7 +301,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                               key={`${product.id}-${detail.label}`}
                               className="grid gap-1 sm:grid-cols-[120px_1fr] sm:gap-3"
                             >
-                              <dt className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-300">
+                              <dt className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-300 batik-subtle">
                                 {detail.label}
                               </dt>
                               <dd className="text-sm font-semibold text-slate-100">
@@ -314,7 +314,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                     ) : null}
 
                     <div className="mt-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300 batik-subtle">
                         Variasi (Ukuran)
                       </p>
                       <div className="mt-2 grid grid-cols-3 gap-2">
@@ -330,7 +330,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                               className={[
                                 'rounded-2xl border px-3 py-2 text-left transition',
                                 isActive
-                                  ? 'border-emerald-300/60 bg-emerald-300/10'
+                                  ? 'border-amber-300/60 bg-amber-300/10'
                                   : 'border-slate-700 bg-slate-950/20 hover:border-slate-600 hover:bg-slate-950/35',
                               ].join(' ')}
                             >
@@ -345,7 +345,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                     </div>
 
                     <div className="mt-6">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300 batik-subtle">
                         Warna
                       </p>
                       <div className="mt-2 flex flex-wrap gap-2">
@@ -361,7 +361,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                               className={[
                                 'inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold transition',
                                 isActive
-                                  ? 'border-emerald-300/60 bg-emerald-300/10 text-slate-50'
+                                  ? 'border-amber-300/60 bg-amber-300/10 text-slate-50'
                                   : 'border-slate-700 bg-slate-950/20 text-slate-100 hover:border-slate-600 hover:bg-slate-950/35',
                               ].join(' ')}
                             >
@@ -380,9 +380,9 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                       </div>
                     </div>
 
-                    <div className="mt-6 flex items-center justify-between gap-3 rounded-3xl border border-slate-700/70 bg-slate-900/35 px-4 py-3">
+                    <div className="mt-6 flex items-center justify-between gap-3 rounded-3xl border border-slate-700/70 bg-slate-900/35 px-4 py-3 batik-card">
                       <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300">
+                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-300 batik-subtle">
                           Jumlah
                         </p>
                         <p className="text-sm font-semibold text-slate-100">
@@ -420,7 +420,7 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                           addSelectedToCart(qty);
                           setPreviewOpen(false);
                         }}
-                        className="rounded-2xl border border-emerald-300/50 bg-emerald-300/10 px-5 py-3 text-sm font-bold text-emerald-100 transition hover:bg-emerald-300/15"
+                        className="rounded-2xl border border-emerald-300/50 bg-emerald-300/10 px-5 py-3 text-sm font-bold text-emerald-100 transition hover:bg-emerald-300/15 batik-accent-outline"
                       >
                         Tambah ke Keranjang
                       </button>
@@ -431,13 +431,13 @@ export default function ProductCard({ product, onAddToCart, onCheckoutFocus }: P
                           setPreviewOpen(false);
                           onCheckoutFocus();
                         }}
-                        className="rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-400"
+                        className="rounded-2xl bg-emerald-500 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-400 batik-accent"
                       >
                         Beli Sekarang
                       </button>
                     </div>
 
-                    <p className="mt-4 text-xs text-slate-300">
+                    <p className="mt-4 text-xs text-slate-300 batik-subtle">
                       Tips: Klik &quot;Beli Sekarang&quot; untuk lanjut isi data dan kirim via
                       WhatsApp.
                     </p>
