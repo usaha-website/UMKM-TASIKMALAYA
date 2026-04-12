@@ -1,22 +1,8 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google';
-
 import './globals.css';
 
 const siteUrl = new URL('https://umkmtasikmalayageuwat.netlify.app/');
-
-const bodyFont = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  weight: ['400', '500', '600', '700'],
-});
-
-const displayFont = Fraunces({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: ['500', '600', '700'],
-});
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -90,9 +76,9 @@ export default function RootLayout({
         addressCountry: 'ID',
       },
       sameAs: [
-        'https://www.instagram.com/umkm.tasikmalaya',
+        'https://www.instagram.com/umkm.tasikmalaya.geuwat',
         'https://www.facebook.com/profile.php?id=61571339783750',
-        'https://www.tiktok.com/@umkm.tasikmalaya',
+        'https://www.tiktok.com/@umkm.tasikmalaya.geuwat',
       ],
     },
     {
@@ -106,7 +92,7 @@ export default function RootLayout({
 
   return (
     <html lang="id">
-      <body className={`${bodyFont.variable} ${displayFont.variable} antialiased`}>
+      <body className="antialiased">
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-PPKWBGPNVY"
           strategy="afterInteractive"

@@ -95,10 +95,7 @@ export default function StoreHeader({
   ],
   infoNote = 'Ongkir disesuaikan sebelum pembayaran saat pemesanan via WhatsApp.',
 }: StoreHeaderProps) {
-  const storeLabel = storeName
-    .replace(/^UMKM[-\s]*/i, '')
-    .replace(/[-_]+/g, ' ')
-    .trim();
+  const storeLabel = storeName.replace(/[-_]+/g, ' ').trim();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -135,7 +132,7 @@ export default function StoreHeader({
                   Navigasi
                 </p>
                 <p className="mt-2 text-lg font-semibold text-slate-50">
-                  {storeLabel || 'Tasikmalaya'}
+                  {storeLabel || 'UMKM Tasikmalaya GEUWAT'}
                 </p>
               </div>
               <button
@@ -144,7 +141,7 @@ export default function StoreHeader({
                 className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-amber-300/25 bg-[rgba(28,20,12,0.7)] text-slate-200 transition hover:border-amber-300/60 hover:text-white"
                 aria-label="Tutup menu"
               >
-                <span className="text-lg">×</span>
+                <span className="text-lg">x</span>
               </button>
             </div>
 
@@ -157,7 +154,7 @@ export default function StoreHeader({
                   className="flex items-center justify-between rounded-2xl border border-amber-300/20 bg-[rgba(28,20,12,0.7)] px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-amber-300/50 hover:bg-[rgba(32,22,13,0.8)]"
                 >
                   <span>{item.label}</span>
-                  <span className="text-slate-500">→</span>
+                  <span className="text-slate-500">-></span>
                 </Link>
               ))}
             </nav>
@@ -204,7 +201,7 @@ export default function StoreHeader({
                 UMKM
               </p>
               <h1 className="break-words text-lg font-bold leading-tight text-slate-100 sm:text-xl md:text-2xl">
-                {storeLabel || 'Tasikmalaya'}
+                {storeLabel || 'UMKM Tasikmalaya GEUWAT'}
               </h1>
             </div>
           </div>
@@ -276,5 +273,6 @@ export default function StoreHeader({
     </header>
   );
 }
+
 
 
