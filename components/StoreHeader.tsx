@@ -154,7 +154,7 @@ export default function StoreHeader({
                   className="flex items-center justify-between rounded-2xl border border-amber-300/20 bg-[rgba(28,20,12,0.7)] px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-amber-300/50 hover:bg-[rgba(32,22,13,0.8)]"
                 >
                   <span>{item.label}</span>
-                  <span className="text-slate-500">-></span>
+                  <span className="text-slate-500">&#8594;</span>
                 </Link>
               ))}
             </nav>
